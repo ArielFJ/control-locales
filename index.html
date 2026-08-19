@@ -403,7 +403,7 @@ function guardarPago(){
   else data.pagos.push({id:Date.now(),fecha,localId,monto,metodo});
   document.getElementById('p-edit').value=''; guardar(); render();
 }
-function editarPago(id){ const p=data.pagos.find(x=>x.id==id); if(!p) return; document.getElementById('p-local').value=p.localId; document.getElementById('p-fecha').value=p.fecha; document.getElementById('p-monto').value=p.monto; document.getElementById('p-metodo').value=p.meto do; document.getElementById('p-edit').value=id; window.scrollTo({top:0,behavior:'smooth'}); }
+function editarPago(id){ const p=data.pagos.find(x=>x.id==id); if(!p) return; document.getElementById('p-local').value=p.localId; document.getElementById('p-fecha').value=p.fecha; document.getElementById('p-monto').value=p.monto; document.getElementById('p-metodo').value=p.metodo; document.getElementById('p-edit').value=id; window.scrollTo({top:0,behavior:'smooth'}); }
 function borrarPago(id){ if(confirm('¿Borrar este pago?')){ data.pagos=data.pagos.filter(p=>p.id!=id); guardar(); render(); } }
 document.getElementById('p-local').addEventListener('change',()=>document.getElementById('p-monto').value=localById(Number(document.getElementById('p-local').value))?.renta||'');
 
