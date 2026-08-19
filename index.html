@@ -501,7 +501,7 @@ function renderReporte(){
 }
 function exportarReporteCSV(){
   const y=mesSel.getFullYear(); let csv='Mes,Esperado,Cobrado,Porciento,Pendiente\n';
-  const esperado=data.locales.filter(l=>l.estado==='Activo').reduce((s  +l.renta,0)0)  // placeholder
+const esperado=data.locales.filter(l=>l.estado==='Activo').reduce((s,l)=>s+l.renta,0);
   MESES.forEach((m,i)=>{ const key=y*100+(i+1); const c=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); csv+=MESES_C[i]+','+esperado+','+c+','+(esperado?Math.round(c/esperado*100):0)+','+Math.max(0,esperado-c)+'\n'; });
   const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reporte-'+y+'.csv'; a.click();
 }
