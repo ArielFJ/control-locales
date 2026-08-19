@@ -3,499 +3,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Control de Locales — Santo Domingo</title>
+<title>Control de Locales</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23245778'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>🏢</text></svg>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-:root{
-  --azul:#245778; --azul-osc:#1b4058; --rojo:#d9534f; --verde:#28a745; --amarillo:#f0ad4e;
-  --gris:#6c757d; --fondo:#f0f3f7; --borde:#d4dce5;
-}
+:root{--azul:#1e3a5f;--azul2:#2b4c7e;--fondo:#f0f4fa;--blanco:#fff;--texto:#1f2937;--gris:#6b7280;--borde:#e2e8f0;--verde:#16a34a;--verde-bg:#f0fdf4;--rojo:#dc2626;--rojo-bg:#fef2f2;--ambar:#d97706;--ambar-bg:#fffbeb;--sombra:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fondo);color:#222;padding-bottom:70px}
-header{background:var(--azul);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-header h1{font-size:18px;font-weight:700}
-header .sub{font-size:11px;opacity:.85}
-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--borde);z-index:10}
-nav button{flex:1;padding:10px 2px 8px;border:0;background:none;font-size:10px;color:var(--gris);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:600}
-nav button.active{color:var(--azul)}
-nav button .ico{font-size:19px}
-main{padding:16px;max-width:640px;margin:0 auto}
-.tab{display:none}
-.tab.active{display:block}
-h2{font-size:17px;color:var(--azul);margin-bottom:10px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.card{background:#fff;border-radius:10px;padding:12px;border:1px solid var(--borde)}
-.card .lbl{font-size:11px;color:var(--gris);text-transform:uppercase;letter-spacing:.5px}
-.card .val{font-size:20px;font-weight:800;margin-top:4px}
-.card .val.ok{color:var(--verde)} .card .val.warn{color:var(--amarillo)} .card .val.bad{color:var(--rojo)}
-.table{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--borde)}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--fondo);color:var(--texto);min-height:100vh}
+a{text-decoration:none;color:inherit}
+.layout{display:flex;min-height:100vh}
+aside{width:250px;background:linear-gradient(180deg,var(--azul) 0%,var(--azul2) 100%);color:#fff;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;z-index:20;transition:transform .3s}
+aside .brand{display:flex;align-items:center;gap:10px;padding:0 8px 18px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:14px}
+aside .brand .logo{font-size:26px}
+aside .brand b{font-size:16px;line-height:1.1;display:block}
+aside nav a{display:flex;align-items:center;gap:12px;padding:12px 12px;border-radius:10px;margin-bottom:4px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85);transition:background .15s}
+aside nav a:hover{background:rgba(255,255,255,.12);color:#fff}
+aside nav a.active{background:rgba(255,255,255,.22);color:#fff;box-shadow: inset 3px 0 0 #fff}
+aside .aside-foot{margin-top:20px;padding:14px 8px;border-top:1px solid rgba(255,255,255,.15);font-size:11px;color:rgba(255,255,255,.6)}
+main{flex:1;padding:24px;max-width:1100px;margin:0 auto}
+main h1{font-size:22px;color:var(--azul);margin-bottom:4px}
+main .subt{color:var(--gris);font-size:13px;margin-bottom:20px}
+.card{background:var(--blanco);border:1px solid var(--borde);border-radius:16px;padding:18px;box-shadow:var(--sombra)}
+.grid-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.kpi{border-radius:16px;padding:16px;color:#fff;position:relative;overflow:hidden}
+.kpi .ico{font-size:24px;opacity:.85}
+.kpi .val{font-size:24px;font-weight:800;margin-top:6px}
+.kpi .lbl{font-size:11px;opacity:.9;text-transform:uppercase;letter-spacing:.5px}
+.kpi.azul{background:linear-gradient(135deg,#2b4c7e,#1e3a5f)} .kpi.verde{background:linear-gradient(135deg,#16a34a,#15803d)} .kpi.rojo{background:linear-gradient(135deg,#ef4444,#b91c1c)} .kpi.ambar{background:linear-gradient(135deg,#f59e0b,#b45309)} .kpi.gris{background:linear-gradient(135deg,#64748b,#475569)} .kpi.empty{background:linear-gradient(135deg,#cbd5e1,#94a3b8)}
+.sec{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:18px;margin-bottom:18px}
+.sec h3{color:var(--azul);font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:var(--azul);color:#fff;padding:8px 6px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
-td{padding:8px 6px;border-bottom:1px solid #eef2f6;vertical-align:middle}
-tr.mora td{background:#fdecea}
-tr.al-dia td{background:#f0f9f1}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;color:#fff}
-.badge.verde{background:var(--verde)} .badge.rojo{background:var(--rojo)} .badge.gris{background:var(--gris)} .badge.amarillo{background:var(--amarillo)}
-button.btn{background:var(--azul);color:#fff;border:0;border-radius:8px;padding:11px 16px;font-size:14px;font-weight:700;cursor:pointer}
-button.btn.sec{background:#fff;color:var(--azul);border:1px solid var(--azul)}
-button.btn.verde{background:var(--verde)} button.btn.rojo{background:var(--rojo)} button.btn.gris{background:var(--gris)}
-button.btn.wa{background:#25D366}
-button.btn.sm{padding:6px 10px;font-size:12px;border-radius:6px}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-input,select,textarea{width:100%;padding:10px;border:1px solid var(--borde);border-radius:8px;font-size:15px;background:#fff;margin-bottom:8px}
-label{display:block;font-size:12px;font-weight:700;color:#444;margin-bottom:3px}
-.form{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:14px;margin-bottom:14px}
-.form h3{font-size:15px;color:var(--azul);margin-bottom:10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
-.mt{ margin-top:12px}
-.mb{margin-bottom:12px}
-.nota{font-size:11px;color:var(--gris);margin-top:4px}
-#recibo-preview{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:20px;font-family:'Courier New',monospace;font-size:12px;line-height:1.5}
-.rec-header{border-bottom:3px double #000;padding-bottom:8px;margin-bottom:8px;text-align:center}
-.rec-header .emp{font-size:17px;font-weight:800;letter-spacing:1px}
-.rec-titulo{text-align:center;font-size:15px;font-weight:800;letter-spacing:3px;margin:10px 0}
-.rec-tabla{width:100%}
-.rec-tabla td{border-bottom:1px dotted #333;padding:3px}
-.rec-total{display:flex;justify-content:space-between;font-weight:800;border-top:2px solid #000;margin-top:6px;padding-top:6px;font-size:14px}
-.rec-letra{border:1px solid #000;padding:5px;margin:8px 0;text-align:center}
-.rec-firma{display:flex;justify-content:space-between;margin-top:34px}
-.rec-firma div{width:42%;border-top:1px solid #000;padding-top:4px;text-align:center;font-size:10px;color:#555}
+th{background:#f1f5f9;color:#334155;text-transform:uppercase;font-size:11px;letter-spacing:.4px;padding:10px 10px;text-align:left;position:sticky;top:0}
+td{padding:10px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tbody tr:hover{background:#f8fafc}
+tr.danger td{background:var(--rojo-bg)} tr.ok td{background:var(--verde-bg)} tr.warn td{background:var(--ambar-bg)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.badge.verde{background:#dcfce7;color:#15803d} .badge.rojo{background:#fee2e2;color:#b91c1c} .badge.ambar{background:#fef3c7;color:#b45309} .badge.gris{background:#f1f5f9;color:#64748b} .badge.azul{background:#dbeafe;color:#1d4ed8}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label{display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--borde);border-radius:10px;font-size:14px;background:#fff;transition:border-color .15s;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul2);box-shadow:0 0 0 3px rgba(43,76,126,.12)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border:0;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:transform .1s;color:#fff;background:var(--azul2);white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn.sec{background:#fff;color:var(--azul2);border:1.5px solid var(--borde)} .btn.gris{background:#6b7280} .btn.verde{background:var(--verde)} .btn.rojo{background:var(--rojo)} .btn.wa{background:#25D366} .btn.sm{padding:6px 10px;font-size:12px;border-radius:8px} .btn.block{width:100%}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:160px;padding:10px;background:#f8fafc;border-radius:12px;border:1px solid var(--borde)}
+.bar{flex:1;background:linear-gradient(180deg,var(--azul2),var(--azul));border-radius:6px 6px 0 0;position:relative;min-width:18px;transition:height .6s ease;display:flex;justify-content:center}
+.bar span{position:absolute;top:-20px;font-size:10px;font-weight:700;color:var(--gris)}
+.bar i{position:absolute;bottom:-24px;font-size:10px;font-style:normal;font-weight:700;color:var(--gris)}
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,.25)}
+.modal h3{color:var(--azul);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal .close{cursor:pointer;background:#f1f5f9;border:0;width:32px;height:32px;border-radius:50%;font-size:15px;color:#64748b}
+.recibo{background:#fff;border:2px solid #1e3a5f;border-radius:12px;padding:30px 34px;max-width:640px;margin:0 auto;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.55;color:#111}
+.recibo .rec-head{border-bottom:3px double #1e3a5f;padding-bottom:12px;margin-bottom:14px;text-align:center}
+.recibo .rec-head .emp{font-size:20px;font-weight:800;letter-spacing:1px}
+.recibo .rec-titulo{text-align:center;font-size:17px;font-weight:800;letter-spacing:4px;margin:14px 0}
+.recibo .rec-line{display:flex;justify-content:space-between;margin:4px 0}
+.recibo .rec-detalle{border:1px solid #000;padding:8px;margin:12px 0}
+.recibo .rec-detalle table{font-size:12px} .recibo .rec-detalle td{border:none;padding:2px}
+.recibo .rec-total{display:flex;justify-content:space-between;font-weight:800;font-size:15px;border-top:2px solid #000;margin-top:8px;padding-top:8px}
+.recibo .rec-letras{border:1px solid #000;padding:8px;margin:12px 0;text-align:center;font-size:11.5px}
+.recibo .rec-firmas{display:flex;justify-content:space-between;margin-top:46px}
+.recibo .rec-firmas div{width:43%;border-top:1px solid #000;padding-top:6px;text-align:center;font-size:10.5px;color:#333}
+.recibo .rec-nota{font-size:9px;text-align:center;color:#777;margin-top:14px}
+.nota{font-size:12px;color:var(--gris)}
+.mt{margin-top:14px} .mb{margin-bottom:14px}
 @media print{
-  body{background:#fff}
-  header,nav,main .no-print{display:none!important}
+  body *{visibility:hidden} .recibo,.recibo *{visibility:visible} .recibo{position:absolute;left:0;top:0;width:100%;margin:0;border:0;padding:20px} @page{margin:8mm}
+  aside,.toolbar,.no-print{display:none!important}
   main{padding:0;max-width:100%}
-  #recibo-preview{border:0;padding:0}
 }
+@media (max-width:720px){ aside{position:fixed;transform:translateX(-100%);width:80%;max-width:300px} aside.open{transform:translateX(0)} main{padding:14px} .hamburguer{display:block!important} .kpi .val{font-size:20px} }
+.hamburguer{display:none;position:sticky;top:12px;left:12px;z-index:30;background:var(--azul);color:#fff;border:0;border-radius:12px;width:44px;height:44px;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--gris)} .empty-state .ico{font-size:48px;opacity:.4;display:block;margin-bottom:10px}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
-<header>
-  <div><h1 id="hdr-titulo">Control de Locales</h1><div class="sub" id="hdr-sub">Santo Domingo · RD</div></div>
-  <div class="row" style="margin:0">
-    <button class="btn sm sec" onclick="exportarBackup()">💾 Backup</button>
-    <button class="btn sm sec" onclick="document.getElementById('file-import').click()">📥 Import</button>
-    <input type="file" id="file-import" accept="application/json" style="display:none" onchange="importarBackup(event)">
-  </div>
-</header>
+<div class="layout">
+  <aside id="sidebar">
+    <div class="brand"><span class="logo">🏢</span><b>Control de Locales <span id="brand-sub">Santo Domingo, RD</span></b></div>
+    <nav id="main-nav">
+      <a data-tab="dash" class="active"><i class="fas fa-gauge-high"></i> Resumen</a>
+      <a data-tab="locales"><i class="fas fa-building"></i> Locales</a>
+      <a data-tab="pagos"><i class="fas fa-hand-holding-dollar"></i> Pagos</a>
+      <a data-tab="recibos"><i class="fas fa-file-invoice-dollar"></i> Recibos</a>
+      <a data-tab="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a data-tab="reporte"><i class="fas fa-chart-column"></i> Reportes</a>
+      <a data-tab="backup"><i class="fas fa-database"></i> Datos & Backup</a>
+    </nav>
+    <div class="aside-foot">⚡ App web de administración de locales comerciales. Tus datos viven en este navegador. Creada por Hermes para tu negocio.</div>
+  </aside>
 
-<main>
-  <!-- DASHBOARD -->
-  <section class="tab active" id="tab-dash">
-    <h2>📊 Resumen del mes</h2>
-    <div class="cards">
-      <div class="card"><div class="lbl">Esperado</div><div class="val" id="d-esperado">RD$ 0</div></div>
-      <div class="card"><div class="lbl">Cobrado</div><div class="val ok" id="d-cobrado">RD$ 0</div></div>
-      <div class="card"><div class="lbl">Pendiente</div><div class="val bad" id="d-pendiente">RD$ 0</div></div>
-      <div class="card"><div class="lbl">Ocupados</div><div class="val" id="d-ocupados">0/0</div></div>
-    </div>
-    <div class="table"><table id="tbl-mora"><thead><tr><th>Local</th><th>Inquilino</th><th>Renta</th><th>Días</th><th>Estado</th></tr></thead><tbody></tbody></table></div>
-  </section>
-
-  <!-- LOCALES -->
-  <section class="tab" id="tab-locales">
-    <h2>🏢 Locales</h2>
-    <div class="form" id="form-local">
-      <h3 id="lbl-form-local">Nuevo local</h3>
-      <div class="grid2">
-        <div><label>Nombre del local</label><input id="l-local" placeholder="Local 1"></div>
-        <div><label>Inquilino / Negocio</label><input id="l-inq" placeholder="Farmacia X"></div>
-        <div><label>WhatsApp (incluye código país)</label><input id="l-tel" placeholder="18090000000" inputmode="tel"></div>
-        <div><label>Renta mensual (RD$)</label><input id="l-renta" type="number" placeholder="25000"></div>
-        <div><label>Día de pago (1-28)</label><input id="l-dia" type="number" min="1" max="28" placeholder="5"></div>
-        <div><label>Estado</label><select id="l-estado"><option value="Activo">Activo</option><option value="Vacío">Vacío</option></select></div>
+  <main>
+    <section id="tab-dash" class="tab active">
+      <h1>Resumen general</h1>
+      <div class="subt" id="dash-sub">Aquí ves el estado de tus cobros y quién está al día.</div>
+      <div class="toolbar no-print">
+        <input type="month" id="mes-selector" class="no-print" style="width:auto">
+        <button class="btn sec" onclick="mesPrev()">◀ Mes anterior</button>
+        <button class="btn sec" onclick="mesNext()">Mes siguiente ▶</button>
+        <button class="btn" onclick="setMesHoy()">Hoy</button>
       </div>
-      <input id="l-edit" type="hidden">
-      <button class="btn" onclick="guardarLocal()">💾 Guardar local</button>
-      <button class="btn sec" onclick="cancelarEditLocal()">Cancelar</button>
-    </div>
-    <div class="table"><table><thead><tr><th>Local</th><th>Inquilino</th><th>Renta</th><th>Día</th><th>Estado</th><th></th></tr></thead><tbody id="tbody-locales"></tbody></table></div>
-  </section>
-
-  <!-- PAGOS -->
-  <section class="tab" id="tab-pagos">
-    <h2>💰 Registrar pago</h2>
-    <div class="form">
-      <div class="grid2">
-        <div><label>Local</label><select id="p-local"></select></div>
-        <div><label>Fecha</label><input id="p-fecha" type="date"></div>
-        <div><label>Monto (RD$)</label><input id="p-monto" type="number"></div>
-        <div><label>Método</label><select id="p-metodo"><option>Transferencia</option><option>Efectivo</option><option>Cheque</option><option>Depósito Bancario</option></select></div>
+      <div class="grid-kpis" id="kpis"></div>
+      <div class="sec">
+        <h3><i class="fas fa-triangle-exclamation"></i> Estado de cobro <span class="badge azul" id="mes-titulo">-</span></h3>
+        <div class="table-wrap"><table id="tbl-mora"><thead><tr><th>Local</th><th>Inquilino / Negocio</th><th>Renta</th><th>Pagado</th><th>Pendiente</th><th>Días de atraso</th><th>Estado</th><th>WhatsApp</th></tr></thead><tbody></tbody></table></div>
       </div>
-      <button class="btn" onclick="guardarPago()">💾 Registrar</button>
-    </div>
-    <h2 class="mt">📒 Historial de pagos</h2>
-    <div class="table"><table><thead><tr><th>Fecha</th><th>Local</th><th>Monto</th><th>Método</th><th></th></tr></thead><tbody id="tbody-pagos"></tbody></table></div>
-  </section>
-
-  <!-- RECIBOS -->
-  <section class="tab" id="tab-recibos">
-    <h2>🧾 Recibos</h2>
-    <div class="form no-print">
-      <div class="grid2">
-        <div><label>Local</label><select id="r-local"></select></div>
-        <div><label>Mes</label><select id="r-mes"></select></div>
+      <div class="sec">
+        <h3><i class="fas fa-chart-simple"></i> Cobros por mes (RD$)</h3>
+        <div class="bars" id="chart-cobros"></div>
       </div>
-      <label>Monto a cobrar (RD$)</label><input id="r-monto" type="number">
-      <div class="row"><button class="btn" onclick="actualizarRecibo()">⚙️ Generar recibo</button><button class="btn verde" onclick="window.print()">🖨️ Imprimir</button><button class="btn sec" onclick="descargarPDF()">📄 Descargar PDF</button></div>
-      <label class="mt">Editar antes de imprimir:</label>
-      <div class="grid2">
-        <div><label>Número de recibo</label><input id="r-numero"></div>
-        <div><label>Fecha</label><input id="r-fecha" type="date"></div>
-        <div><label>Concepto</label><input id="r-concepto"></div>
-        <div><label>Método de pago</label><input id="r-metodo" value="Transferencia bancaria"></div>
+    </section>
+
+    <section id="tab-locales" class="tab">
+      <h1>Locales e inquilinos</h1>
+      <div class="subt">Administra tus locales, sus inquilinos y su historial de pagos.</div>
+      <div class="sec">
+        <h3 id="titulo-form-local">➕ Nuevo local</h3>
+        <div class="form-grid">
+          <div><label>Nombre del local</label><input id="l-local" placeholder="Local 1"></div>
+          <div><label>Inquilino / Negocio</label><input id="l-inq" placeholder="Farmacia La Esperanza"></div>
+          <div><label>WhatsApp (con código país, ej. 1809...)</label><input id="l-tel" placeholder="1809 000 0000" inputmode="tel"></div>
+          <div><label>Renta mensual (RD$)</label><input id="l-renta" type="number" placeholder="25000"></div>
+          <div><label>Día de pago (1-28)</label><input id="l-dia" type="number" min="1" max="28" placeholder="5"></div>
+          <div><label>Estado</label><select id="l-estado"><option value="Activo">Activo</option><option value="Vacío">Vacío</option></select></div>
+        </div>
+        <div class="toolbar mt">
+          <button class="btn" onclick="guardarLocal()">💾 Guardar local</button>
+          <button class="btn sec" onclick="cancelarEdit()">Cancelar</button>
+        </div>
+        <input type="hidden" id="l-edit">
       </div>
-    </div>
-    <div id="recibo-preview"></div>
-    <div class="no-print nota mt">Al imprimir solo sale el recibo (los controles se ocultan).</div>
-  </section>
+      <div class="sec table-wrap"><table id="tbl-locales"><thead><tr><th>Local</th><th>Inquilino / Negocio</th><th>Renta</th><th>Día pago</th><th>Estado</th><th>Historial</th><th>Acciones</th></tr></thead><tbody></tbody></table></div>
+    </section>
 
-  <!-- WHATSAPP -->
-  <section class="tab" id="tab-wa">
-    <h2>💬 WhatsApp</h2>
-    <div class="row">
-      <button class="btn wa" onclick="waMorosos()">🔴 Avisos a morosos</button>
-      <button class="btn" onclick="waRecordatorios()">📅 Recordatorios de pago</button>
-    </div>
-    <div id="wa-output" class="mt"></div>
-  </section>
+    <section id="tab-pagos" class="tab">
+      <h1>Registrar pagos</h1>
+      <div class="subt">Cada transferencia que llega, regístrala aquí en segundos.</div>
+      <div class="sec">
+        <h3>➕ Nuevo pago</h3>
+        <div class="form-grid">
+          <div><label>Local</label><select id="p-local"></select></div>
+          <div><label>Fecha</label><input id="p-fecha" type="date"></div>
+          <div><label>Monto (RD$)</label><input id="p-monto" type="number" step="0.01"></div>
+          <div><label>Método</label><select id="p-metodo"><option>Transferencia</option><option>Efectivo</option><option>Cheque</option><option>Depósito Bancario</option></select></div>
+        </div>
+        <button class="btn mt" onclick="guardarPago()">💾 Registrar pago</button>
+      </div>
+      <div class="sec table-wrap"><table id="tbl-pagos"><thead><tr><th>Fecha (ordenado desc)</th><th>Local</th><th>Monto</th><th>Método</th><th>Acciones</th></tr></thead><tbody></tbody></table></div>
+      <div class="grid-kpis"><div class="kpi verde"><div class="ico">💰</div><div class="val" id="total-pagos">RD$ 0</div><div class="lbl">Total mostrado</div></div></div>
+    </section>
 
-  <!-- REPORTE -->
-  <section class="tab" id="tab-reporte">
-    <h2>📈 Reporte anual</h2>
-    <div class="table"><table><thead><tr><th>Mes</th><th>Esperado</th><th>Cobrado</th><th>%</th></tr></thead><tbody id="tbody-reporte"></tbody></table></div>
-    <button class="btn sec mt" onclick="exportarReporteCSV()">📊 Exportar CSV</button>
-  </section>
-</main>
+    <section id="tab-recibos" class="tab">
+      <h1>Recibos profesionales</h1>
+      <div class="subt">Recibo listo para imprimir, guardar en PDF o enviar por WhatsApp con tu nombre/RNC.</div>
+      <div class="sec no-print">
+        <div class="form-grid">
+          <div><label>Local</label><select id="r-local"></select></div>
+          <div><label>Mes</label><select id="r-mes"></select></div>
+          <div><label>Monto (RD$)</label><input id="r-monto" type="number" step="0.01"></div>
+          <div><label>Número de recibo</label><input id="r-numero"></div>
+          <div><label>Fecha</label><input id="r-fecha" type="date"></div>
+        </div>
+        <div class="toolbar mt">
+          <button class="btn" onclick="generarRecibo()">⚙️ Generar recibo</button>
+          <button class="btn verde" onclick="window.print()">🖨️ Imprimir</button>
+          <button class="btn sec" onclick="descargarPDF()">📄 Descargar PDF</button>
+          <button class="btn wa" onclick="enviarWhatsAppRecibo()">💬 Enviar por WhatsApp</button>
+        </div>
+      </div>
+      <div id="recibo-preview" class="recibo"></div>
+      <div class="sec mt no-print">
+        <h3>📁 Recibos emitidos</h3>
+        <div class="table-wrap"><table id="tbl-recibos"><thead><tr><th>Nº</th><th>Fecha</th><th>Local</th><th>Monto</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
 
-<nav>
-  <button class="active" data-tab="dash"><span class="ico">📊</span>Resumen</button>
-  <button data-tab="locales"><span class="ico">🏢</span>Locales</button>
-  <button data-tab="pagos"><span class="ico">💰</span>Pagos</button>
-  <button data-tab="recibos"><span class="ico">🧾</span>Recibos</button>
-  <button data-tab="wa"><span class="ico">💬</span>WhatsApp</button>
-  <button data-tab="reporte"><span class="ico">📈</span>Reporte</button>
-</nav>
+    <section id="tab-whatsapp" class="tab">
+      <h1>WhatsApp automático</h1>
+      <div class="subt">Mensajes pre-armados para tus inquilinos con un toque.</div>
+      <div class="sec">
+        <h3><i class="fab fa-whatsapp"></i> Enviar aviso de mora (mes actual)</h3>
+        <div id="wa-morosos"></div>
+        <div class="toolbar mt"><button class="btn wa block" onclick="waMorosos()">🔴 Generar avisos a morosos</button></div>
+      </div>
+      <div class="sec">
+        <h3><i class="fas fa-calendar-check"></i> Recordatorios de pago</h3>
+        <div id="wa-recordatorios"></div>
+        <div class="toolbar mt"><button class="btn block" onclick="waRecordatorios()">📅 Generar recordatorios de pago</button></div>
+      </div>
+    </section>
+
+    <section id="tab-reporte" class="tab">
+      <h1>Reportes</h1>
+      <div class="subt">Resumen financiero anual para ti y tu contador.</div>
+      <div class="sec table-wrap"><table id="tbl-reporte"><thead><tr><th>Mes</th><th>Esperado</th><th>Cobrado</th><th>% cobrado</th><th>Pendiente</th></tr></thead><tbody></tbody></table></div>
+      <div class="toolbar no-print"><button class="btn" onclick="exportarReporteCSV()">📊 Exportar CSV</button><button class="btn sec" onclick="renderReportePDF()">🖨️ Imprimir reporte</button></div>
+    </section>
+
+    <section id="tab-backup" class="tab">
+      <h1>Datos & Backup</h1>
+      <div class="subt>Tus datos se guardan en este navegador. Haz backups periódicos.</div>
+      <div class="sec">
+        <h3>⚙️ Configuración de tu negocio</h3>
+        <div class="form-grid">
+          <div><label>Nombre / Negocio (sale en recibos)</label><input id="c-nombre"></div>
+          <div><label>RNC (opcional)</label><input id="c-rnc"></div>
+          <div><label>Teléfono</label><input id="c-tel"></div>
+          <div><label>Dirección</label><input id="c-dir"></div>
+          <div><label>Correo (opcional)</label><input id="c-email"></div>
+        </div>
+        <button class="btn mt" onclick="guardarConfig()">💾 Guardar configuración</button>
+      </div>
+      <div class="sec">
+        <h3>📤 Explora / importa tu información</h3>
+        <div class="toolbar">
+          <button class="btn" onclick="exportarBackup()">💾 Descargar backup (JSON)</button>
+          <button class="btn sec" onclick="document.getElementById('file-import').click()">📥 Importar backup</button>
+          <input type="file" id="file-import" accept="application/json" style="display:none" onchange="importarBackup(event)">
+          <button class="btn rojo" onclick="restaurarDemo()">🔄 Restaurar datos de ejemplo</button>
+        </div>
+        <p class="nota mt">Guarda el archivo JSON en un lugar seguro (correo, nube). Para cambiar de teléfono: en el nuevo teléfono abre la app y usa Importar backup.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button class="hamburguer no-print" onclick="toggleSidebar()">☰</button>
+<div class="modal-bg" id="modal-bg" onclick="closeModal()"><div class="modal" onclick="event.stopPropagation()" id="modal-box"></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 // ============ DATOS ============
-const KEY='controlLocales_v1';
-let data = { config:{ nombre:'TUS NOMBRES AQUÍ', rnc:'RNC: 1-01-00000-0', tel:'809-000-0000', direccion:'Santo Domingo, República Dominicana' }, locales:[], pagos:[] };
+const KEY='controlLocales_v2';
+let data = { config:{nombre:'TU NOMBRE O NEGOCIO AQUÍ',rnc:'RNC: 1-01-00000-0',tel:'809-000-0000',dir:'Santo Domingo, República Dominicana',email:''},locales:[],pagos:[],recibos:[]};
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MESES_C=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-function cargar(){
-  try{ const raw=localStorage.getItem(KEY); if(raw){ data=JSON.parse(raw); } }catch(e){}
-  if(!data.config) data.config={ nombre:'TUS NOMBRES AQUÍ', rnc:'', tel:'', direccion:'Santo Domingo, RD' };
-  if(!data.locales) data.locales=[];
-  if(!data.pagos) data.pagos=[];
-  if(data.locales.length===0) cargarDemo();
-}
+function cargar(){ try{const r=localStorage.getItem(KEY); if(r) data=JSON.parse(r);}catch(e){} if(!data.config) data.config={};
+  if(!data.locales) data.locales=[]; if(!data.pagos) data.pagos=[]; if(!data.recibos) data.recibos=[];
+  if(data.locales.length===0) cargarDemo(); }
 function guardar(){ localStorage.setItem(KEY, JSON.stringify(data)); }
 function cargarDemo(){
-  data.config={ nombre:'TUS NOMBRES AQUÍ', rnc:'RNC 1-01-00000-0', tel:'809-000-0000', direccion:'Santo Domingo, República Dominicana' };
+  data.config={nombre:'TU NOMBRE O NEGOCIO AQUÍ',rnc:'RNC 1-01-00000-0',tel:'809-000-0000',dir:'Santo Domingo, República Dominicana',email:''};
   data.locales=[
-    {id:1, local:'Local 1', inquilino:'Inquilino Ejemplo 1', tel:'18090000001', renta:25000, dia:5, estado:'Activo'},
-    {id:2, local:'Local 2', inquilino:'Inquilino Ejemplo 2', tel:'18090000002', renta:18000, dia:5, estado:'Activo'},
-    {id:3, local:'Local 3', inquilino:'Inquilino Ejemplo 3', tel:'18090000003', renta:22000, dia:10, estado:'Activo'},
-    {id:4, local:'Local 4', inquilino:'Inquilino Ejemplo 4', tel:'18090000004', renta:30000, dia:10, estado:'Activo'},
-    {id:5, local:'Local 5', inquilino:'Inquilino Ejemplo 5', tel:'18090000005', renta:15000, dia:15, estado:'Activo'},
-    {id:6, local:'Local 6', inquilino:'Inquilino Ejemplo 6', tel:'18090000006', renta:20000, dia:15, estado:'Activo'},
-    {id:7, local:'Local 7', inquilino:'Inquilino Ejemplo 7', tel:'18090000007', renta:26000, dia:20, estado:'Activo'},
-    {id:8, local:'Local 8', inquilino:'Inquilino Ejemplo 8', tel:'18090000008', renta:19000, dia:20, estado:'Activo'},
+    {id:1,local:'Local 1',inquilino:'Inquilino Ejemplo 1',tel:'18090000001',renta:25000,dia:5,estado:'Activo',desde:'2024-01-01',hasta:'2026-12-31'},
+    {id:2,local:'Local 2',inquilino:'Inquilino Ejemplo 2',tel:'18090000002',renta:18000,dia:5,estado:'Activo',desde:'2024-03-01',hasta:'2027-03-31'},
+    {id:3,local:'Local 3',inquilino:'Inquilino Ejemplo 3',tel:'18090000003',renta:22000,dia:10,estado:'Activo',desde:'2023-06-01',hasta:'2026-11-30'},
+    {id:4,local:'Local 4',inquilino:'Inquilino Ejemplo 4',tel:'18090000004',renta:30000,dia:10,estado:'Activo',desde:'2024-09-01',hasta:'2027-09-30'},
+    {id:5,local:'Local 5',inquilino:'Inquilino Ejemplo 5',tel:'18090000005',renta:15000,dia:15,estado:'Activo',desde:'2025-01-01',hasta:'2028-01-31'},
+    {id:6,local:'Local 6',inquilino:'Inquilino Ejemplo 6',tel:'18090000006',renta:20000,dia:15,estado:'Activo',desde:'2025-05-01',hasta:'2028-05-31'},
+    {id:7,local:'Local 7',inquilino:'Inquilino Ejemplo 7',tel:'18090000007',renta:26000,dia:20,estado:'Activo',desde:'2025-08-01',hasta:'2028-08-31'},
+    {id:8,local:'Local 8',inquilino:'Inquilino Ejemplo 8',tel:'18090000008',renta:19000,dia:20,estado:'Activo',desde:'2026-02-01',hasta:'2029-02-28'}
   ];
-  const hoy=new Date(); const y=hoy.getFullYear(), m=hoy.getMonth();
-  data.pagos=[
-    {id:1, fecha:new Date(y,m,1).toISOString().slice(0,10), localId:1, monto:25000, metodo:'Transferencia'},
-    {id:2, fecha:new Date(y,m,3).toISOString().slice(0,10), localId:2, monto:18000, metodo:'Transferencia'},
-  ];
+  const now=new Date(); const y=now.getFullYear(), m=now.getMonth();
+  data.pagos=[{id:1,fecha:new Date(y,m,1).toISOString().slice(0,10),localId:1,monto:25000,metodo:'Transferencia'},{id:2,fecha:new Date(y,m,3).toISOString().slice(0,10),localId:2,monto:18000,metodo:'Transferencia'}];
+  data.recibos=[];
   guardar();
 }
-function fmt(n){ return 'RD$ '+Number(n||0).toLocaleString('es-DO'); }
-function mesKey(d){ const dt=new Date(d); return dt.getFullYear()*100+(dt.getMonth()+1); }
-const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function fmt(n){ return 'RD$ ' + Number(n||0).toLocaleString('es-DO'); }
+function mesKey(fecha){ const d=new Date(fecha); return d.getFullYear()*100+(d.getMonth()+1); }
 function localById(id){ return data.locales.find(l=>l.id==id); }
-function pagosMes(localId,key){ return data.pagos.filter(p=>p.localId==localId && mesKey(p.fecha)===key); }
+function pagosDe(localId,key){ return data.pagos.filter(p=>p.localId==localId && mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); }
 
-// ============ NAV ============
-document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  document.getElementById('tab-'+b.dataset.tab).classList.add('active');
-  render();
+// ============ NAVEGACIÓN ============
+document.querySelectorAll('#main-nav a').forEach(a=>a.addEventListener('click',()=>{
+  document.querySelectorAll('#main-nav a').forEach(x=>x.classList.remove('active')); a.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+a.dataset.tab).classList.add('active');
+  closeSidebar(); render(); window.scrollTo({top:0,behavior:'smooth'});
 }));
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); }
 
-// ============ RENDER ============
+// ============ RENDER PRINCIPAL ============
+let mesSel = new Date(); // mes seleccionado
+function setMesHoy(){ mesSel = new Date(); document.getElementById('mes-selector').value=mesSel.toISOString().slice(0,7); render(); }
+function mesPrev(){ const d=new Date(mesSel.getFullYear(), mesSel.getMonth()-1, 1); mesSel=d; document.getElementById('mes-selector').value=d.toISOString().slice(0,7); render(); }
+function mesNext(){ const d=new Date(mesSel.getFullYear(), mesSel.getMonth()+1, 1); mesSel=d; document.getElementById('mes-selector').value=d.toISOString().slice(0,7); render(); }
+document.getElementById('mes-selector').addEventListener('change', e=>{ const v=e.target.value; if(v){ mesSel=new Date(v+'-01T00:00:00'); render(); } });
+
+function kpi(label,val,ico,cls){ return `<div class="kpi ${cls}"><div class="ico">${ico}</div><div class="val">${val}</div><div class="lbl">${label}</div></div>`; }
 function render(){
-  const y=new Date().getFullYear(), m=new Date().getMonth(); const key=y*100+(m+1);
+  const selKey=mesKey(mesSel.toISOString().slice(0,10)); const mesTitulo=MESES_C[mesSel.getMonth()]+' '+mesSel.getFullYear();
+  document.getElementById('dash-sub').innerHTML = 'Mes de <b>'+mesTitulo+'</b> · hoy es '+new Date().toLocaleDateString('es-DO');
+  document.getElementById('mes-titulo').textContent=mesTitulo;
   const activos=data.locales.filter(l=>l.estado==='Activo');
   const esperado=activos.reduce((s,l)=>s+l.renta,0);
-  const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0);
-  document.getElementById('d-esperado').textContent=fmt(esperado);
-  document.getElementById('d-cobrado').textContent=fmt(cobrado);
-  document.getElementById('d-pendiente').textContent=fmt(Math.max(0,esperado-cobrado));
-  document.getElementById('d-ocupados').textContent=activos.length+'/'+data.locales.length;
-  document.getElementById('hdr-titulo').textContent=data.config.nombre||'Control de Locales';
-  renderMora(key, esperado, cobrado);
+  const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===selKey).reduce((s,p)=>s+p.monto,0);
+  const pendiente=Math.max(0,esperado-cobrado);
+  const pct=esperado?Math.round(cobrado/esperado*100):0;
+  document.getElementById('kpis').innerHTML = kpi('Esperado',fmt(esperado),'📋','azul') + kpi('Cobrado',fmt(cobrado),'✅','verde') + kpi('Pendiente',fmt(pendiente),'⏳',pendiente>0?'rojo':'verde') + kpi('Cobrado (%)',pct+'%', '📈','ambar') + kpi('Ocupados',activos.length+'/'+data.locales.length,'🏢','gris') + kpi('Con atraso',data.locales.filter(l=>l.estado==='Activo' && pagosDe(l.id,selKey)<l.renta).length,'🚨',data.locales.filter(l=>l.estado==='Activo' && pagosDe(l.id,selKey)<l.renta).length>0?'rojo':'verde');
+  renderMora(selKey,mesTitulo);
+  renderChart();
   renderLocales();
   renderPagos();
-  renderRecibosSelects();
+  renderRecibos();
   renderReporte();
+  renderConfig();
 }
 
-function renderMora(key){
+function renderMora(key,titulo){
   const tb=document.querySelector('#tbl-mora tbody'); tb.innerHTML='';
   const hoy=new Date();
   data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
-    const pagado=pagosMes(l.id,key).reduce((s,p)=>s+p.monto,0);
+    const pagado=pagosDe(l.id,key);
     const saldo=Math.max(0,l.renta-pagado);
     const limite=new Date(hoy.getFullYear(),hoy.getMonth(),Math.min(l.dia||1,28));
     const dias=saldo>0?Math.max(0,Math.floor((hoy-limite)/86400000)):0;
     const tr=document.createElement('tr');
-    tr.className=saldo>0?'mora':'al-dia';
-    const est=saldo<=0?'<span class="badge verde">AL DÍA</span>':(dias>=30?'<span class="badge rojo">MORA 30+</span>':(dias>=10?'<span class="badge amarillo">MORA</span>':'<span class="badge gris">GESTIÓN</span>'));
-    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${dias}</td><td>${est}</td>`;
+    tr.className=saldo>0?(dias>=30?'danger':(dias>=10?'warn':'warn')):'ok';
+    const badge=saldo<=0?'<span class="badge verde">AL DÍA</span>':(dias>=30?'<span class="badge rojo">MORA 30+</span>':(dias>=10?'<span class="badge ambar">MORA '+dias+' días</span>':'<span class="badge gris">EN GESTIÓN</span>'));
+    const tel=String(l.tel||'').replace(/\D/g,'');
+    const msg=encodeURIComponent(`Hola ${l.inquilino}, aún no recibimos la renta de ${MESES[mesSel.getMonth()].toLowerCase()} del ${l.local} (RD$ ${saldo.toLocaleString('es-DO')}). Por favor coordina el pago lo antes posible. Gracias.`);
+    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${fmt(pagado)}</td><td><b>${fmt(saldo)}</b></td><td>${dias}</td><td>${badge}</td><td>${tel?`<a class="btn wa sm" target="_blank" href="https://wa.me/${tel}?text=${msg}">💬 Avisar</a>`:''}</td>`;
     tb.appendChild(tr);
   });
 }
 
+function renderChart(){
+  const bars=document.getElementById('chart-cobros'); bars.innerHTML='';
+  const y=mesSel.getFullYear();
+  const maxPagos=Math.max(1, ...data.locales.filter(l=>l.estado==='Activo').map(l=>l.renta));
+  for(let m=0;m<12;m++){
+    const key=y*100+(m+1);
+    const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0);
+    const h=Math.max(4,Math.round(cobrado/maxPagos*100));
+    bars.innerHTML+=`<div class="bar" style="height:${h}%" title="${MESES_C[m]}: ${fmt(cobrado)}"><span>${cobrado?Math.round(cobrado/1000)+'k':''}</span><i>${MESES_C[m].slice(0,3)}</i></div>`;
+  }
+}
+
+// ============ LOCALES ============
 function renderLocales(){
-  const tb=document.getElementById('tbody-locales'); tb.innerHTML='';
+  const tb=document.getElementById('tbl-locales').querySelector('tbody'); tb.innerHTML='';
   data.locales.forEach(l=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${l.dia}</td><td><span class="badge ${l.estado==='Activo'?'verde':'gris'}">${l.estado}</span></td><td><button class="btn sm sec" onclick="editarLocal(${l.id})">✏️</button> <button class="btn sm rojo" onclick="borrarLocal(${l.id})">🗑️</button></td>`;
+    const badge=l.estado==='Activo'?'<span class="badge verde">Activo</span>':'<span class="badge gris">Vacío</span>';
+    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${l.dia}</td><td>${badge}</td><td><button class="btn sm sec" onclick="verHistorial(${l.id})">📂 Ver historial (${data.pagos.filter(p=>p.localId==l.id).length})</button></td><td><button class="btn sm sec" onclick="editarLocal(${l.id})">✏️ Editar</button> <button class="btn sm rojo" onclick="borrarLocal(${l.id})">🗑️</button></td>`;
     tb.appendChild(tr);
   });
 }
 function editarLocal(id){
-  const l=localById(id);
-  document.getElementById('l-local').value=l.local;
-  document.getElementById('l-inq').value=l.inquilino;
-  document.getElementById('l-tel').value=l.tel;
-  document.getElementById('l-renta').value=l.renta;
-  document.getElementById('l-dia').value=l.dia;
-  document.getElementById('l-estado').value=l.estado;
-  document.getElementById('l-edit').value=id;
-  document.getElementById('lbl-form-local').textContent='Editar local';
+  const l=localById(id); if(!l) return;
+  document.getElementById('l-edit').value=id; document.getElementById('titulo-form-local').textContent='✏️ Editar '+l.local;
+  document.getElementById('l-local').value=l.local; document.getElementById('l-inq').value=l.inquilino; document.getElementById('l-tel').value=l.tel;
+  document.getElementById('l-renta').value=l.renta; document.getElementById('l-dia').value=l.dia; document.getElementById('l-estado').value=l.estado;
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function cancelarEditLocal(){ document.getElementById('l-edit').value=''; document.getElementById('lbl-form-local').textContent='Nuevo local'; document.getElementById('form-local').reset(); }
+function cancelarEdit(){ document.getElementById('l-edit').value=''; document.getElementById('titulo-form-local').textContent='➕ Nuevo local'; document.getElementById('l-local').value=''; document.getElementById('l-inq').value=''; document.getElementById('l-tel').value=''; document.getElementById('l-renta').value=''; document.getElementById('l-dia').value=''; document.getElementById('l-estado').value='Activo'; }
 function guardarLocal(){
-  const local=document.getElementById('l-local').value.trim();
-  const inq=document.getElementById('l-inq').value.trim();
+  const local=document.getElementById('l-local').value.trim(), inq=document.getElementById('l-inq').value.trim();
   const tel=document.getElementById('l-tel').value.replace(/\D/g,'');
   const renta=Number(document.getElementById('l-renta').value)||0;
   const dia=Math.min(28,Math.max(1,Number(document.getElementById('l-dia').value)||1));
   const estado=document.getElementById('l-estado').value;
-  if(!local||!inq){ alert('Pon al menos el nombre del local y el inquilino.'); return; }
+  if(!local||!inq){ alert('Pon el nombre del local y el inquilino/negocio.'); return; }
   const edit=document.getElementById('l-edit').value;
   if(edit){ const l=localById(edit); Object.assign(l,{local,inquilino:inq,tel,renta,dia,estado}); }
-  else{ data.locales.push({id:Date.now(),local,inquilino:inq,tel,renta,dia,estado}); }
-  guardar(); cancelarEditLocal(); render();
+  else data.locales.push({id:Date.now(),local,inquilino:inq,tel,renta,dia,estado,desde:'',hasta:''});
+  guardar(); cancelarEdit(); render();
 }
-function borrarLocal(id){ if(confirm('¿Borrar este local y sus pagos?')){ data.locales=data.locales.filter(l=>l.id!=id); data.pagos=data.pagos.filter(p=>p.localId!=id); guardar(); render(); } }
+function borrarLocal(id){ if(confirm('¿Borrar el local y TODOS sus pagos y recibos asociados?')){ data.locales=data.locales.filter(l=>l.id!=id); data.pagos=data.pagos.filter(p=>p.localId!=id); data.recibos=data.recibos.filter(r=>r.localId!=id); guardar(); render(); } }
+function verHistorial(id){
+  const l=localById(id); if(!l) return;
+  const pagos=data.pagos.filter(p=>p.localId==id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  let rows=pagos.map(p=>`<tr><td>${new Date(p.fecha).toLocaleDateString('es-DO')}</td><td>${fmt(p.monto)}</td><td>${p.metodo}</td></tr>`).join('')||'<tr><td colspan="3" style="text-align:center;color:#999">Sin pagos registrados.</td></tr>';
+  const tel=String(l.tel||'').replace(/\D/g,'');
+  openModal(`<h3>📂 Historial de ${l.local} <span class="close" onclick="closeModal()">✕</span></h3>
+    <p class="nota mb">${l.inquilino} · Rent a mensual ${fmt(l.renta)} · Paga día ${l.dia}.</p>
+    <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Monto</th><th>Método</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="toolbar mt">${tel?`<a class="btn wa" target="_blank" href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+l.inquilino+', te envío tu estado de cuenta actualizado. ¡Gracias!')}">💬 Enviar estado por WhatsApp</a>`:''}</div>`);
+}
 
+// ============ PAGOS ============
 function renderPagos(){
   const sel=document.getElementById('p-local'); sel.innerHTML='';
   data.locales.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.local+' — '+l.inquilino; sel.appendChild(o); });
   document.getElementById('p-fecha').value=new Date().toISOString().slice(0,10);
   document.getElementById('p-monto').value=localById(sel.value)?.renta||'';
-  const tb=document.getElementById('tbody-pagos'); tb.innerHTML='';
-  [...data.pagos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,30).forEach(p=>{
+  const tb=document.getElementById('tbl-pagos').querySelector('tbody'); tb.innerHTML='';
+  let total=0;
+  [...data.pagos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).forEach(p=>{
     const l=localById(p.localId);
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${new Date(p.fecha).toLocaleDateString('es-DO')}</td><td>${l?l.local:''}</td><td>${fmt(p.monto)}</td><td>${p.metodo}</td><td><button class="btn sm rojo" onclick="borrarPago(${p.id})">🗑️</button></td>`;
-    tb.appendChild(tr);
+    tr.innerHTML=`<td>${new Date(p.fecha).toLocaleDateString('es-DO')}</td><td>${l?l.local:''} ${l?('— '+l.inquilino):''}</td><td><b>${fmt(p.monto)}</b></td><td>${p.metodo}</td><td><button class="btn sm sec" onclick="editarPago(${p.id})">✏️</button> <button class="btn sm rojo" onclick="borrarPago(${p.id})">🗑️</button></td>`;
+    total+=p.monto; tb.appendChild(tr);
   });
+  document.getElementById('total-pagos').textContent=fmt(total);
 }
 function guardarPago(){
-  const localId=Number(document.getElementById('p-local').value);
-  const fecha=document.getElementById('p-fecha').value;
-  const monto=Number(document.getElementById('p-monto').value)||0;
-  const metodo=document.getElementById('p-metodo').value;
+  const id=document.getElementById('p-edit')?.value||'';
+  const localId=Number(document.getElementById('p-local').value), fecha=document.getElementById('p-fecha').value, monto=Number(document.getElementById('p-monto').value)||0, metodo=document.getElementById('p-metodo').value;
   if(!localId||!fecha||monto<=0){ alert('Completa local, fecha y monto.'); return; }
-  data.pagos.push({id:Date.now(),fecha,localId,monto,metodo});
-  guardar(); render();
+  if(id){ const p=data.pagos.find(x=>x.id==id); if(p) Object.assign(p,{localId,fecha,monto,metodo}); }
+  else data.pagos.push({id:Date.now(),fecha,localId,monto,metodo});
+  document.getElementById('p-edit').value=''; guardar(); render();
 }
-function borrarPago(id){ data.pagos=data.pagos.filter(p=>p.id!=id); guardar(); render(); }
+function editarPago(id){ const p=data.pagos.find(x=>x.id==id); if(!p) return; document.getElementById('p-local').value=p.localId; document.getElementById('p-fecha').value=p.fecha; document.getElementById('p-monto').value=p.monto; document.getElementById('p-metodo').value=p.meto do; document.getElementById('p-edit').value=id; window.scrollTo({top:0,behavior:'smooth'}); }
+function borrarPago(id){ if(confirm('¿Borrar este pago?')){ data.pagos=data.pagos.filter(p=>p.id!=id); guardar(); render(); } }
+document.getElementById('p-local').addEventListener('change',()=>document.getElementById('p-monto').value=localById(Number(document.getElementById('p-local').value))?.renta||'');
 
-function renderRecibosSelects(){
-  const sel=document.getElementById('r-local'); sel.innerHTML='';
-  data.locales.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.local+' — '+l.inquilino; sel.appendChild(o); });
-  const msel=document.getElementById('r-mes'); msel.innerHTML='';
-  const ahora=new Date(); let prev=ahora.getMonth()-1; if(prev<0) prev=11;
-  MESES.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m+' '+ahora.getFullYear(); msel.appendChild(o); });
-  msel.selectedIndex=prev;
-  document.getElementById('r-monto').value=localById(sel.value)?.renta||'';
-  const hoy=new Date();
-  document.getElementById('r-fecha').value=hoy.toISOString().slice(0,10);
-  document.getElementById('r-numero').value='R-'+String(hoy.getDate()).padStart(2,'0')+String(hoy.getMonth()+1).padStart(2,'0')+String(hoy.getFullYear()).slice(-2)+'-'+Math.floor(100+Math.random()*900);
-  actualizarRecibo();
-}
-
+// ============ RECIBOS ============
 function numeroEnLetras(num){
   const un=['CERO','UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   const esp=['DIEZ','ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE'];
   const dec=['VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];
   const cen=['CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
-  let n=Math.floor(Math.abs(num));
-  const cent=Math.round((Math.abs(num)-n)*100);
-  function l(n){
-    if(n===0) return 'CERO';
-    if(n<10) return un[n];
-    if(n<20) return esp[n-10];
-    if(n<30) return n===20?'VEINTE':'VEINTI'+un[n%10];
-    if(n<100) return dec[Math.floor(n/10)-2]+(n%10?' Y '+un[n%10]:'');
-    if(n<1000) return (n===100?'CIEN':cen[Math.floor(n/100)-1])+(n%100?' '+l(n%100):'');
-    if(n<1000000) return (Math.floor(n/1000)===1?'MIL':l(Math.floor(n/1000))+' MIL')+(n%1000?' '+l(n%1000):'');
-    if(n<1000000000) return (Math.floor(n/1000000)===1?'UN MILLÓN':l(Math.floor(n/1000000))+' MILLONES')+(n%1000000?' '+l(n%1000000):'');
-    return 'CANTIDAD MUY GRANDE';
-  }
+  let n=Math.floor(Math.abs(num)); const cent=Math.round((Math.abs(num)-n)*100);
+  function l(n){ if(n===0) return 'CERO'; if(n<10) return un[n]; if(n<20) return esp[n-10]; if(n<30)return n===20?'VEINTE':'VEINTI'+un[n%10]; if(n<100)return dec[Math.floor(n/10)-2]+(n%10?' Y '+un[n%10]:''); if(n<1000)return (n===100?'CIEN':cen[Math.floor(n/100)-1])+(n%100?' '+l(n%100):''); if(n<1000000)return (Math.floor(n/1000)===1?'MIL':l(Math.floor(n/1000))+' MIL')+(n%1000?' '+l(n%1000):''); if(n<1000000000)return (Math.floor(n/1000000)===1?'UN MILLÓN':l(Math.floor(n/1000000))+' MILLONES')+(n%1000000?' '+l(n%1000000):''); return 'CANTIDAD MUY GRANDE' }
   return l(n)+' PESOS DOMINICANOS CON '+String(cent).padStart(2,'0')+'/100';
 }
-
-function actualizarRecibo(){
-  const l=localById(Number(document.getElementById('r-local').value));
-  if(!l) return;
+function renderRecibos(){
+  const sel=document.getElementById('r-local'); sel.innerHTML='';
+  data.locales.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.local+' — '+l.inquilino; sel.appendChild(o); });
+  const msel=document.getElementById('r-mes'); msel.innerHTML='';
+  const now=new Date(); let prev=now.getMonth()-1; if(prev<0) prev=11;
+  MESES_C.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m+' '+now.getFullYear(); msel.appendChild(o); }); msel.selectedIndex=prev;
+  document.getElementById('r-fecha').value=now.toISOString().slice(0,10);
+  document.getElementById('r-numero').value='R-'+String(now.getDate()).padStart(2,'0')+String(now.getMonth()+1).padStart(2,'0')+String(now.getFullYear()).slice(-2)+'-'+Math.floor(100+Math.random()*900);
+  const tb=document.getElementById('tbl-recibos').querySelector('tbody'); tb.innerHTML='';
+  [...data.recibos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).forEach(r=>{ const l=localById(r.localId); const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.numero}</td><td>${new Date(r.fecha).toLocaleDateString('es-DO')}</td><td>${l?l.local:''} ${l?('— '+l.inquilino):''}</td><td>${fmt(r.monto)}</td><td><span class="badge verde">Emitido</span></td><td><button class="btn sm sec" onclick="window.print()">🖨️</button></td>`; tb.appendChild(tr); });
+  generarRecibo();
+}
+function generarRecibo(){
+  const l=localById(Number(document.getElementById('r-local').value)); if(!l) return;
   const monto=Number(document.getElementById('r-monto').value)||l.renta;
   const numero=document.getElementById('r-numero').value;
-  const fecha=document.getElementById('r-fecha').value?new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO'):'';
-  const concepto=document.getElementById('r-concepto').value||('Renta correspondiente al mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local);
-  const metodo=document.getElementById('r-metodo').value;
+  const fecha=new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO')||'';
+  const concepto=('Renta correspondiente al mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local);
+  const metodo='Transferencia bancaria';
   const cfg=data.config;
   document.getElementById('recibo-preview').innerHTML=`
-    <div class="rec-header">
-      <div class="emp">${cfg.nombre}</div>
-      <div style="font-size:10px">Administración de Locales Comerciales</div>
-      <div style="font-size:10px">${cfg.rnc} · Tel: ${cfg.tel}</div>
-      <div style="font-size:10px">${cfg.direccion}</div>
+    <div class="rec-head"><div class="emp">${cfg.nombre}</div><div style="font-size:10px">Administración de Locales Comerciales</div><div style="font-size:10px">${cfg.rnc} · Tel: ${cfg.tel}</div><div style="font-size:10px">${cfg.dir}</div></div>
+    <div class="rec-titulo">R E C I B O&nbsp; D E&nbsp; P A G O</div>
+    <div class="rec-line"><span><b>Recibo No.:</b> ${numero}</span><span><b>Fecha:</b> ${fecha}</span></div>
+    <div class="rec-line"><span><b>Local:</b> ${l.local}</span><span><b>Inquilino:</b> ${l.inquilino}</span></div>
+    <div class="rec-detalle">
+      <table><tr><td>Concepto</td><td style="text-align:right">Importe (RD$)</td></tr><tr><td>${concepto}</td><td style="text-align:right">${Number(monto).toLocaleString('es-DO')}.00</td></tr></table>
+      <div class="rec-total"><span>TOTAL RECIBIDO</span><span>RD$ ${Number(monto).toLocaleString('es-DO')}.00</span></div>
     </div>
-    <div class="rec-titulo">R E C I B O&nbsp;&nbsp;D E&nbsp;&nbsp;P A G O</div>
-    <table class="rec-tabla">
-      <tr><td><b>Recibo No.:</b> ${numero}</td><td style="text-align:right"><b>Fecha:</b> ${fecha}</td></tr>
-      <tr><td><b>Local:</b> ${l.local}</td><td style="text-align:right"><b>Inquilino:</b> ${l.inquilino}</td></tr>
-      <tr><td colspan="2"><b>Concepto:</b> ${concepto}</td></tr>
-    </table>
-    <div style="border:1px solid #000;padding:6px;margin:8px 0">
-      <table class="rec-tabla"><tr><td>Importe a cobrar</td><td style="text-align:right">RD$ ${Number(monto).toLocaleString('es-DO')}.00</td></tr></table>
-      <div class="rec-total"><span>TOTAL</span><span>RD$ ${Number(monto).toLocaleString('es-DO')}.00</span></div>
-    </div>
-    <div class="rec-letra">SON: ${numeroEnLetras(monto)}</div>
-    <div style="display:flex;justify-content:space-between"><b>Método de pago:</b><span>${metodo}</span></div>
-    <div class="rec-firma">
-      <div>Firma del arrendatario</div>
-      <div>Firma y sello del administrador</div>
-    </div>
-    <div style="font-size:9px;text-align:center;color:#777;margin-top:10px">Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII.</div>`;
+    <div class="rec-letras">SON: ${numeroEnLetras(monto)}</div>
+    <div class="rec-line"><span><b>Método de pago:</b> ${metodo}</span></div>
+    <div class="rec-firmas"><div>Firma del arrendatario (inquilino)</div><div>Firma y sello del administrador</div></div>
+    <div class="rec-nota">Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII en la República Dominicana.</div>`;
+  data.recibos.push({id:Date.now(),numero,fecha,localId:l.id,monto,concepto,metodo}); guardar();
+}
+function enviarWhatsAppRecibo(){
+  const l=localById(Number(document.getElementById('r-local').value)); if(!l) return;
+  const tel=String(l.tel||'').replace(/\D/g,''); const monto=Number(document.getElementById('r-monto').value)||l.renta;
+  const msg=encodeURIComponent(`🏢 ${data.config.nombre}\nRECIBO DE PAGO\nLocal: ${l.local} (${l.inquilino})\nMonto: RD$ ${monto.toLocaleString('es-DO')} (${numeroEnLetras(monto)})\nFecha: ${new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO')}\nGracias por su pago. ¡Buen día!`);
+  if(tel) window.open(`https://wa.me/${tel}?text=${msg}`,'_blank');
 }
 function descargarPDF(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFont('courier','normal'); doc.setFontSize(10);
-  const monto=Number(document.getElementById('r-monto').value)||0;
-  const l=localById(Number(document.getElementById('r-local').value));
-  const cfg=data.config;
-  const y=20;
-  doc.setFontSize(15); doc.setFont('courier','bold');
-  doc.text(cfg.nombre, 105, y, {align:'center'});
-  doc.setFontSize(9); doc.setFont('courier','normal');
-  doc.text('Administración de Locales Comerciales',105,y+6,{align:'center'});
-  doc.text(cfg.rnc+' · Tel: '+cfg.tel,105,y+12,{align:'center'});
-  doc.text(cfg.direccion,105,y+18,{align:'center'});
-  doc.setFontSize(13); doc.setFont('courier','bold');
-  doc.text('R E C I B O   D E   P A G O',105,y+30,{align:'center'});
-  doc.setFontSize(10); doc.setFont('courier','normal');
-  const fecha=document.getElementById('r-fecha').value?new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO'):'';
-  doc.text('Recibo No.: '+document.getElementById('r-numero').value,20,y+40);
-  doc.text('Fecha: '+fecha,190,y+40,{align:'right'});
-  doc.text('Local: '+l.local,20,y+47);
-  doc.text('Inquilino: '+l.inquilino,190,y+47,{align:'right'});
-  doc.text('Concepto: '+(document.getElementById('r-concepto').value||('Renta del mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local)),20,y+54);
-  doc.line(20,y+62,190,y+62);
-  doc.text('Importe a cobrar',20,y+68);
-  doc.text('RD$ '+Number(monto).toLocaleString('es-DO')+'.00',190,y+68,{align:'right'});
-  doc.setFont('courier','bold'); doc.setFontSize(12);
-  doc.text('TOTAL',20,y+76);
-  doc.text('RD$ '+Number(monto).toLocaleString('es-DO')+'.00',190,y+76,{align:'right'});
-  doc.setFont('courier','normal'); doc.setFontSize(9);
-  doc.rect(20,y+82,170,12);
-  doc.text('SON: '+numeroEnLetras(monto),105,y+89,{align:'center'});
-  doc.text('Método de pago: '+document.getElementById('r-metodo').value,20,y+102);
-  doc.line(20,y+125,85,y+125); doc.line(125,y+125,190,y+125);
-  doc.setFontSize(8);
-  doc.text('Firma del arrendatario',52,y+130,{align:'center'});
-  doc.text('Firma y sello del administrador',157,y+130,{align:'center'});
-  doc.setFontSize(7);
-  doc.text('Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII.',105,285,{align:'center'});
+  const { jsPDF } = window.jspdf; const doc = new jsPDF();
+  const cfg=data.config; const l=localById(Number(document.getElementById('r-local').value)); const monto=Number(document.getElementById('r-monto').value)||(l?l.renta:0);
+  doc.setFont('courier','bold'); doc.setFontSize(15); doc.text(cfg.nombre,105,22,{align:'center'}); doc.setFontSize(9); doc.setFont('courier','normal');
+  doc.text('Administración de Locales Comerciales',105,28,{align:'center'}); doc.text(cfg.rnc+' · Tel: '  +cfg.tel,105,34,{align:'center'}); doc.text(cfg.dir,105,40,{align:'center'});
+  doc.setFontSize(14); doc.setFont('courier','bold'); doc.text('R E C I B O   D E   P A G O',105,52,{align:'center'});
+  const fecha=new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO')||'';
+  doc.setFontSize(10); doc.setFont('courier','normal'); doc.text('Recibo No.: '+document.getElementById('r-numero').value,20,62); doc.text('Fecha: '+fecha,190,62,{align:'right'});
+  doc.text('Local: '+l.local,20,69); doc.text('Inquilino: '+l.inquilino,190,69,{align:'right'});
+  doc.text('Concepto: Renta del mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local,20,76);
+  doc.line(20,82,190,82);
+  doc.setFontSize(12); doc.setFont('courier','bold'); doc.text('TOTAL',20,90); doc.text('RD$ '+Number(monto).toLocaleString('es-DO')+'.00',190,90,{align:'right'}); doc.setFontSize(9); doc.setFont('courier','normal');
+  doc.rect(20,96,170,12); doc.text('SON: '+numeroEnLetras(monto),105,103,{align:'center'});
+  doc.text('Método de pago: Transferencia bancaria',20,116);
+  doc.line(20,140,85,140); doc.line(125,140,190,140); doc.setFontSize(8); doc.text('Firma del arrendatario',52,145,{align:'center'}); doc.text('Firma y sello del administrador',157,145,{align:'center'});
+  doc.setFontSize(7); doc.text('Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII.',105,290,{align:'center'});
   doc.save('Recibo-'+l.local.replace(/\s/g,'-')+'.pdf');
 }
 
 // ============ WHATSAPP ============
 function waMorosos(){
-  const y=new Date().getFullYear(),m=new Date().getMonth(); const key=y*100+(m+1);
-  const hoy=new Date(); const mesTxt=MESES[m].toLowerCase();
-  const out=document.getElementById('wa-output'); out.innerHTML='';
-  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
-    const pagado=pagosMes(l.id,key).reduce((s,p)=>s+p.monto,0);
-    const saldo=Math.max(0,l.renta-pagado);
-    if(saldo<=0) return;
-    const msg=encodeURIComponent('Hola '+l.inquilino+', aún no recibimos la renta de '+mesTxt+' del '+l.local+' (RD$ '+saldo.toLocaleString('es-DO')+'). Por favor coordina el pago lo antes posible. Gracias.');
-    out.innerHTML+=`<a class="btn wa" style="display:block;text-align:center;margin-bottom:8px;text-decoration:none" href="https://wa.me/${l.tel}?text=${msg}" target="_blank">💬 ${l.local} — ${l.inquilino} (${fmt(saldo)})</a>`;
-  });
-  if(!out.innerHTML) out.innerHTML='<div class="nota">🎉 Sin morosidades este mes. Todo al día.</div>';
+  const key=mesKey(mesSel.toISOString().slice(0,10)); const out=document.getElementById('wa-morosos'); out.innerHTML='';
+  let n=0;
+  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{ const saldo=Math.max(0,l.renta-pagosDe(l.id,key)); if(saldo<=0) return; n++; const tel=String(l.tel||'').replace(/\D/g,''); const msg=encodeURIComponent(`Hola ${l.inquilino}, aún no recibimos la renta de ${MESES[mesSel.getMonth()].toLowerCase()} del ${l.local} (RD$ ${saldo.toLocaleString('es-DO')}). Por favor coordina el pago lo antes posible. Gracias.`); out.innerHTML+=`<a class="btn wa block" style="margin-bottom:8px;text-decoration:none" target="_blank" href="https://wa.me/${tel}?text=${msg}">💬 ${l.local} — ${l.inquilino} (${fmt(saldo)})</a>`; });
+  if(!n) out.innerHTML='<div class="nota">🎉 Todos al día en este mes.</div>';
 }
 function waRecordatorios(){
-  const mesTxt=MESES[new Date().getMonth()].toLowerCase();
-  const out=document.getElementById('wa-output'); out.innerHTML='';
-  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
-    const msg=encodeURIComponent('Hola '+l.inquilino+', te recordamos que la renta del '+l.local+' vence el día '+l.dia+'. El monto es RD$ '+l.renta.toLocaleString('es-DO')+'. Si ya la enviaste, ignora este mensaje. ¡Gracias!');
-    out.innerHTML+=`<a class="btn" style="display:block;text-align:center;margin-bottom:8px;text-decoration:none" href="https://wa.me/${l.tel}?text=${msg}" target="_blank">💬 ${l.local} — ${l.inquilino} (vence día ${l.dia})</a>`;
-  });
+  const out=document.getElementById('wa-recordatorios'); out.innerHTML='';
+  let n=0; const m=MESES[new Date().getMonth()].toLowerCase();
+  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{ const tel=String(l.tel||'').replace(/\D/g,''); const msg=encodeURIComponent(`Hola ${l.inquilino}, te recordamos que la renta del ${l.local} vence el día ${l.dia}. El monto es RD$ ${l.renta.toLocaleString('es-DO')}. Si ya la enviaste, ignora este mensaje. ¡Gracias!`); out.innerHTML+=`<a class="btn block" style="margin-bottom:8px;text-decoration:none" target="_blank" href="https://wa.me/${tel}?text=${msg}">💬 ${l.inquilino} — ${l.local} (vence día ${l.dia})</a>`; n++; });
+  if(!n) out.innerHTML='<div class="nota">No hay locales activos.</div>';
 }
 
 // ============ REPORTE ============
 function renderReporte(){
-  const y=new Date().getFullYear();
-  const tb=document.getElementById('tbody-reporte'); tb.innerHTML='';
-  const activos=data.locales.filter(l=>l.estado==='Activo');
-  const esperado=activos.reduce((s,l)=>s+l.renta,0);
-  let totalCobrado=0;
-  MESES.forEach((m,i)=>{
-    const key=y*100+(i+1);
-    const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0);
-    totalCobrado+=cobrado;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${m}</td><td>${fmt(esperado)}</td><td>${fmt(cobrado)}</td><td>${esperado?Math.round(cobrado/esperado*100):0}%</td>`;
-    tb.appendChild(tr);
-  });
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td><b>TOTAL</b></td><td><b>${fmt(esperado*12)}</b></td><td><b>${fmt(totalCobrado)}</b></td><td><b>${esperado?Math.round(totalCobrado/(esperado*12)*100):0}%</b></td>`;
-  tb.appendChild(tr);
+  const y=mesSel.getFullYear(); const tb=document.getElementById('tbl-reporte').querySelector('tbody'); tb.innerHTML='';
+  const activos=data.locales.filter(l=>l.estado==='Activo'); const esperado=activos.reduce((s,l)=>s+l.renta,0);
+  let totalC=0;
+  MESES.forEach((m,i)=>{ const key=y*100+(i+1); const c=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); totalC+=c; const tr=document.createElement('tr'); tr.innerHTML=`<td>${MESES_C[i]}</td><td>${fmt(esperado)}</td><td>${fmt(c)}</td><td>${esperado?Math.round(c/esperado*100):0}%</td><td>${fmt(Math.max(0,esperado-c))}</td>`; tb.appendChild(tr); });
+  const tr=document.createElement('tr'); tr.innerHTML=`<td><b>TOTAL ANUAL</b></td><td><b>${fmt(esperado*12)}</b></td><td><b>${fmt(totalC)}</b></td><td><b>${esperado?Math.round(totalC/(esperado*12)*100):0}%</b></td><td><b>${fmt(Math.max(0,esperado*12-totalC))}</b></td>`; tb.appendChild(tr);
 }
 function exportarReporteCSV(){
-  const y=new Date().getFullYear();
-  let csv='Mes,Esperado,Cobrado,%\n';
-  const esperado=data.locales.filter(l=>l.estado==='Activo').reduce((s,l)=>s+l.renta,0);
-  MESES.forEach((m,i)=>{ const key=y*100+(i+1); const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); csv+=m+','+esperado+','+cobrado+','+(esperado?Math.round(cobrado/esperado*100):0)+'\n'; });
+  const y=mesSel.getFullYear(); let csv='Mes,Esperado,Cobrado,Porciento,Pendiente\n';
+  const esperado=data.locales.filter(l=>l.estado==='Activo').reduce((s  +l.renta,0)0)  // placeholder
+  MESES.forEach((m,i)=>{ const key=y*100+(i+1); const c=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); csv+=MESES_C[i]+','+esperado+','+c+','+(esperado?Math.round(c/esperado*100):0)+','+Math.max(0,esperado-c)+'\n'; });
   const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reporte-'+y+'.csv'; a.click();
 }
+function renderReportePDF(){ window.print(); }
 
-// ============ BACKUP ============
-function exportarBackup(){
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='control-locales-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
-}
-function importarBackup(ev){
-  const f=ev.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(d.locales){ data=d; guardar(); render(); alert('✅ Backup importado.'); } else alert('Archivo no válido.'); }catch(e){ alert('Error: '+e.message); } };
-  r.readAsText(f);
-}
+// ============ CONFIG & BACKUP ============
+function renderConfig(){ document.getElementById('c-nombre').value=data.config.nombre||''; document.getElementById('c-rnc').value=data.config.rnc||''; document.getElementById('c-tel').value=data.config.tel||''; document.getElementById('c-dir').value=data.config.dir||''; document.getElementById('c-email').value=data.config.email||''; document.getElementById('brand-sub').textContent=(data.config.dir||'Santo Domingo, RD').split(',').pop().trim()||'Santo Domingo, RD'; }
+function guardarConfig(){ data.config={nombre:document.getElementById('c-nombre').value||'TU NOMBRE O NEGOCIO',rnc:document.getElementById('c-rnc').value,tel:document.getElementById('c-tel').value,dir:document.getElementById('c-dir').value,email:document.getElementById('c-email').value}; guardar(); render(); alert('✅ Configuración guardada.'); }
+function exportarBackup(){ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='control-locales-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); }
+function importarBackup(ev){ const f=ev.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); if(d.locales){ data=d; guardar(); render(); alert('✅ Backup importado correctamente.'); } else alert('Archivo no válido.'); } catch(e){ alert('Error: '+e.message); } }; r.readAsText(f); ev.target.value=''; }
+function restaurarDemo(){ if(confirm('Se borrarán tus datos actuales y se cargarán los datos de ejemplo. ¿Continuar?')){ cargarDemo(); render(); } }
+function openModal(html){ document.getElementById('modal-box').innerHTML=html; document.getElementById('modal-bg').classList.add('show'); }
+function closeModal(){ document.getElementById('modal-bg').classList.remove('show'); }
+
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
 // ============ INIT ============
-['r-local','r-mes','r-monto','r-numero','r-fecha','r-concepto','r-metodo'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change',actualizarRecibo); });
-document.getElementById('p-local').addEventListener('change',()=>{ document.getElementById('p-monto').value=localById(Number(document.getElementById('p-local').value))?.renta||''; });
-cargar();
-render();
+const init=()=>{ cargar(); render(); };
+init();
 </script>
 </body>
 </html>
