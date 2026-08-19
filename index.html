@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Control de Locales — Santo Domingo</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --azul:#245778; --azul-osc:#1b4058; --rojo:#d9534f; --verde:#28a745; --amarillo:#f0ad4e;
+  --gris:#6c757d; --fondo:#f0f3f7; --borde:#d4dce5;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fondo);color:#222;padding-bottom:70px}
+header{background:var(--azul);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+header h1{font-size:18px;font-weight:700}
+header .sub{font-size:11px;opacity:.85}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--borde);z-index:10}
+nav button{flex:1;padding:10px 2px 8px;border:0;background:none;font-size:10px;color:var(--gris);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:600}
+nav button.active{color:var(--azul)}
+nav button .ico{font-size:19px}
+main{padding:16px;max-width:640px;margin:0 auto}
+.tab{display:none}
+.tab.active{display:block}
+h2{font-size:17px;color:var(--azul);margin-bottom:10px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:#fff;border-radius:10px;padding:12px;border:1px solid var(--borde)}
+.card .lbl{font-size:11px;color:var(--gris);text-transform:uppercase;letter-spacing:.5px}
+.card .val{font-size:20px;font-weight:800;margin-top:4px}
+.card .val.ok{color:var(--verde)} .card .val.warn{color:var(--amarillo)} .card .val.bad{color:var(--rojo)}
+.table{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--borde)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--azul);color:#fff;padding:8px 6px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+td{padding:8px 6px;border-bottom:1px solid #eef2f6;vertical-align:middle}
+tr.mora td{background:#fdecea}
+tr.al-dia td{background:#f0f9f1}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;color:#fff}
+.badge.verde{background:var(--verde)} .badge.rojo{background:var(--rojo)} .badge.gris{background:var(--gris)} .badge.amarillo{background:var(--amarillo)}
+button.btn{background:var(--azul);color:#fff;border:0;border-radius:8px;padding:11px 16px;font-size:14px;font-weight:700;cursor:pointer}
+button.btn.sec{background:#fff;color:var(--azul);border:1px solid var(--azul)}
+button.btn.verde{background:var(--verde)} button.btn.rojo{background:var(--rojo)} button.btn.gris{background:var(--gris)}
+button.btn.wa{background:#25D366}
+button.btn.sm{padding:6px 10px;font-size:12px;border-radius:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--borde);border-radius:8px;font-size:15px;background:#fff;margin-bottom:8px}
+label{display:block;font-size:12px;font-weight:700;color:#444;margin-bottom:3px}
+.form{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:14px;margin-bottom:14px}
+.form h3{font-size:15px;color:var(--azul);margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.mt{ margin-top:12px}
+.mb{margin-bottom:12px}
+.nota{font-size:11px;color:var(--gris);margin-top:4px}
+#recibo-preview{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:20px;font-family:'Courier New',monospace;font-size:12px;line-height:1.5}
+.rec-header{border-bottom:3px double #000;padding-bottom:8px;margin-bottom:8px;text-align:center}
+.rec-header .emp{font-size:17px;font-weight:800;letter-spacing:1px}
+.rec-titulo{text-align:center;font-size:15px;font-weight:800;letter-spacing:3px;margin:10px 0}
+.rec-tabla{width:100%}
+.rec-tabla td{border-bottom:1px dotted #333;padding:3px}
+.rec-total{display:flex;justify-content:space-between;font-weight:800;border-top:2px solid #000;margin-top:6px;padding-top:6px;font-size:14px}
+.rec-letra{border:1px solid #000;padding:5px;margin:8px 0;text-align:center}
+.rec-firma{display:flex;justify-content:space-between;margin-top:34px}
+.rec-firma div{width:42%;border-top:1px solid #000;padding-top:4px;text-align:center;font-size:10px;color:#555}
+@media print{
+  body{background:#fff}
+  header,nav,main .no-print{display:none!important}
+  main{padding:0;max-width:100%}
+  #recibo-preview{border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div><h1 id="hdr-titulo">Control de Locales</h1><div class="sub" id="hdr-sub">Santo Domingo · RD</div></div>
+  <div class="row" style="margin:0">
+    <button class="btn sm sec" onclick="exportarBackup()">💾 Backup</button>
+    <button class="btn sm sec" onclick="document.getElementById('file-import').click()">📥 Import</button>
+    <input type="file" id="file-import" accept="application/json" style="display:none" onchange="importarBackup(event)">
+  </div>
+</header>
+
+<main>
+  <!-- DASHBOARD -->
+  <section class="tab active" id="tab-dash">
+    <h2>📊 Resumen del mes</h2>
+    <div class="cards">
+      <div class="card"><div class="lbl">Esperado</div><div class="val" id="d-esperado">RD$ 0</div></div>
+      <div class="card"><div class="lbl">Cobrado</div><div class="val ok" id="d-cobrado">RD$ 0</div></div>
+      <div class="card"><div class="lbl">Pendiente</div><div class="val bad" id="d-pendiente">RD$ 0</div></div>
+      <div class="card"><div class="lbl">Ocupados</div><div class="val" id="d-ocupados">0/0</div></div>
+    </div>
+    <div class="table"><table id="tbl-mora"><thead><tr><th>Local</th><th>Inquilino</th><th>Renta</th><th>Días</th><th>Estado</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <!-- LOCALES -->
+  <section class="tab" id="tab-locales">
+    <h2>🏢 Locales</h2>
+    <div class="form" id="form-local">
+      <h3 id="lbl-form-local">Nuevo local</h3>
+      <div class="grid2">
+        <div><label>Nombre del local</label><input id="l-local" placeholder="Local 1"></div>
+        <div><label>Inquilino / Negocio</label><input id="l-inq" placeholder="Farmacia X"></div>
+        <div><label>WhatsApp (incluye código país)</label><input id="l-tel" placeholder="18090000000" inputmode="tel"></div>
+        <div><label>Renta mensual (RD$)</label><input id="l-renta" type="number" placeholder="25000"></div>
+        <div><label>Día de pago (1-28)</label><input id="l-dia" type="number" min="1" max="28" placeholder="5"></div>
+        <div><label>Estado</label><select id="l-estado"><option value="Activo">Activo</option><option value="Vacío">Vacío</option></select></div>
+      </div>
+      <input id="l-edit" type="hidden">
+      <button class="btn" onclick="guardarLocal()">💾 Guardar local</button>
+      <button class="btn sec" onclick="cancelarEditLocal()">Cancelar</button>
+    </div>
+    <div class="table"><table><thead><tr><th>Local</th><th>Inquilino</th><th>Renta</th><th>Día</th><th>Estado</th><th></th></tr></thead><tbody id="tbody-locales"></tbody></table></div>
+  </section>
+
+  <!-- PAGOS -->
+  <section class="tab" id="tab-pagos">
+    <h2>💰 Registrar pago</h2>
+    <div class="form">
+      <div class="grid2">
+        <div><label>Local</label><select id="p-local"></select></div>
+        <div><label>Fecha</label><input id="p-fecha" type="date"></div>
+        <div><label>Monto (RD$)</label><input id="p-monto" type="number"></div>
+        <div><label>Método</label><select id="p-metodo"><option>Transferencia</option><option>Efectivo</option><option>Cheque</option><option>Depósito Bancario</option></select></div>
+      </div>
+      <button class="btn" onclick="guardarPago()">💾 Registrar</button>
+    </div>
+    <h2 class="mt">📒 Historial de pagos</h2>
+    <div class="table"><table><thead><tr><th>Fecha</th><th>Local</th><th>Monto</th><th>Método</th><th></th></tr></thead><tbody id="tbody-pagos"></tbody></table></div>
+  </section>
+
+  <!-- RECIBOS -->
+  <section class="tab" id="tab-recibos">
+    <h2>🧾 Recibos</h2>
+    <div class="form no-print">
+      <div class="grid2">
+        <div><label>Local</label><select id="r-local"></select></div>
+        <div><label>Mes</label><select id="r-mes"></select></div>
+      </div>
+      <label>Monto a cobrar (RD$)</label><input id="r-monto" type="number">
+      <div class="row"><button class="btn" onclick="actualizarRecibo()">⚙️ Generar recibo</button><button class="btn verde" onclick="window.print()">🖨️ Imprimir</button><button class="btn sec" onclick="descargarPDF()">📄 Descargar PDF</button></div>
+      <label class="mt">Editar antes de imprimir:</label>
+      <div class="grid2">
+        <div><label>Número de recibo</label><input id="r-numero"></div>
+        <div><label>Fecha</label><input id="r-fecha" type="date"></div>
+        <div><label>Concepto</label><input id="r-concepto"></div>
+        <div><label>Método de pago</label><input id="r-metodo" value="Transferencia bancaria"></div>
+      </div>
+    </div>
+    <div id="recibo-preview"></div>
+    <div class="no-print nota mt">Al imprimir solo sale el recibo (los controles se ocultan).</div>
+  </section>
+
+  <!-- WHATSAPP -->
+  <section class="tab" id="tab-wa">
+    <h2>💬 WhatsApp</h2>
+    <div class="row">
+      <button class="btn wa" onclick="waMorosos()">🔴 Avisos a morosos</button>
+      <button class="btn" onclick="waRecordatorios()">📅 Recordatorios de pago</button>
+    </div>
+    <div id="wa-output" class="mt"></div>
+  </section>
+
+  <!-- REPORTE -->
+  <section class="tab" id="tab-reporte">
+    <h2>📈 Reporte anual</h2>
+    <div class="table"><table><thead><tr><th>Mes</th><th>Esperado</th><th>Cobrado</th><th>%</th></tr></thead><tbody id="tbody-reporte"></tbody></table></div>
+    <button class="btn sec mt" onclick="exportarReporteCSV()">📊 Exportar CSV</button>
+  </section>
+</main>
+
+<nav>
+  <button class="active" data-tab="dash"><span class="ico">📊</span>Resumen</button>
+  <button data-tab="locales"><span class="ico">🏢</span>Locales</button>
+  <button data-tab="pagos"><span class="ico">💰</span>Pagos</button>
+  <button data-tab="recibos"><span class="ico">🧾</span>Recibos</button>
+  <button data-tab="wa"><span class="ico">💬</span>WhatsApp</button>
+  <button data-tab="reporte"><span class="ico">📈</span>Reporte</button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ============ DATOS ============
+const KEY='controlLocales_v1';
+let data = { config:{ nombre:'TUS NOMBRES AQUÍ', rnc:'RNC: 1-01-00000-0', tel:'809-000-0000', direccion:'Santo Domingo, República Dominicana' }, locales:[], pagos:[] };
+
+function cargar(){
+  try{ const raw=localStorage.getItem(KEY); if(raw){ data=JSON.parse(raw); } }catch(e){}
+  if(!data.config) data.config={ nombre:'TUS NOMBRES AQUÍ', rnc:'', tel:'', direccion:'Santo Domingo, RD' };
+  if(!data.locales) data.locales=[];
+  if(!data.pagos) data.pagos=[];
+  if(data.locales.length===0) cargarDemo();
+}
+function guardar(){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function cargarDemo(){
+  data.config={ nombre:'TUS NOMBRES AQUÍ', rnc:'RNC 1-01-00000-0', tel:'809-000-0000', direccion:'Santo Domingo, República Dominicana' };
+  data.locales=[
+    {id:1, local:'Local 1', inquilino:'Inquilino Ejemplo 1', tel:'18090000001', renta:25000, dia:5, estado:'Activo'},
+    {id:2, local:'Local 2', inquilino:'Inquilino Ejemplo 2', tel:'18090000002', renta:18000, dia:5, estado:'Activo'},
+    {id:3, local:'Local 3', inquilino:'Inquilino Ejemplo 3', tel:'18090000003', renta:22000, dia:10, estado:'Activo'},
+    {id:4, local:'Local 4', inquilino:'Inquilino Ejemplo 4', tel:'18090000004', renta:30000, dia:10, estado:'Activo'},
+    {id:5, local:'Local 5', inquilino:'Inquilino Ejemplo 5', tel:'18090000005', renta:15000, dia:15, estado:'Activo'},
+    {id:6, local:'Local 6', inquilino:'Inquilino Ejemplo 6', tel:'18090000006', renta:20000, dia:15, estado:'Activo'},
+    {id:7, local:'Local 7', inquilino:'Inquilino Ejemplo 7', tel:'18090000007', renta:26000, dia:20, estado:'Activo'},
+    {id:8, local:'Local 8', inquilino:'Inquilino Ejemplo 8', tel:'18090000008', renta:19000, dia:20, estado:'Activo'},
+  ];
+  const hoy=new Date(); const y=hoy.getFullYear(), m=hoy.getMonth();
+  data.pagos=[
+    {id:1, fecha:new Date(y,m,1).toISOString().slice(0,10), localId:1, monto:25000, metodo:'Transferencia'},
+    {id:2, fecha:new Date(y,m,3).toISOString().slice(0,10), localId:2, monto:18000, metodo:'Transferencia'},
+  ];
+  guardar();
+}
+function fmt(n){ return 'RD$ '+Number(n||0).toLocaleString('es-DO'); }
+function mesKey(d){ const dt=new Date(d); return dt.getFullYear()*100+(dt.getMonth()+1); }
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function localById(id){ return data.locales.find(l=>l.id==id); }
+function pagosMes(localId,key){ return data.pagos.filter(p=>p.localId==localId && mesKey(p.fecha)===key); }
+
+// ============ NAV ============
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+  render();
+}));
+
+// ============ RENDER ============
+function render(){
+  const y=new Date().getFullYear(), m=new Date().getMonth(); const key=y*100+(m+1);
+  const activos=data.locales.filter(l=>l.estado==='Activo');
+  const esperado=activos.reduce((s,l)=>s+l.renta,0);
+  const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0);
+  document.getElementById('d-esperado').textContent=fmt(esperado);
+  document.getElementById('d-cobrado').textContent=fmt(cobrado);
+  document.getElementById('d-pendiente').textContent=fmt(Math.max(0,esperado-cobrado));
+  document.getElementById('d-ocupados').textContent=activos.length+'/'+data.locales.length;
+  document.getElementById('hdr-titulo').textContent=data.config.nombre||'Control de Locales';
+  renderMora(key, esperado, cobrado);
+  renderLocales();
+  renderPagos();
+  renderRecibosSelects();
+  renderReporte();
+}
+
+function renderMora(key){
+  const tb=document.querySelector('#tbl-mora tbody'); tb.innerHTML='';
+  const hoy=new Date();
+  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
+    const pagado=pagosMes(l.id,key).reduce((s,p)=>s+p.monto,0);
+    const saldo=Math.max(0,l.renta-pagado);
+    const limite=new Date(hoy.getFullYear(),hoy.getMonth(),Math.min(l.dia||1,28));
+    const dias=saldo>0?Math.max(0,Math.floor((hoy-limite)/86400000)):0;
+    const tr=document.createElement('tr');
+    tr.className=saldo>0?'mora':'al-dia';
+    const est=saldo<=0?'<span class="badge verde">AL DÍA</span>':(dias>=30?'<span class="badge rojo">MORA 30+</span>':(dias>=10?'<span class="badge amarillo">MORA</span>':'<span class="badge gris">GESTIÓN</span>'));
+    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${dias}</td><td>${est}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function renderLocales(){
+  const tb=document.getElementById('tbody-locales'); tb.innerHTML='';
+  data.locales.forEach(l=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><b>${l.local}</b></td><td>${l.inquilino}</td><td>${fmt(l.renta)}</td><td>${l.dia}</td><td><span class="badge ${l.estado==='Activo'?'verde':'gris'}">${l.estado}</span></td><td><button class="btn sm sec" onclick="editarLocal(${l.id})">✏️</button> <button class="btn sm rojo" onclick="borrarLocal(${l.id})">🗑️</button></td>`;
+    tb.appendChild(tr);
+  });
+}
+function editarLocal(id){
+  const l=localById(id);
+  document.getElementById('l-local').value=l.local;
+  document.getElementById('l-inq').value=l.inquilino;
+  document.getElementById('l-tel').value=l.tel;
+  document.getElementById('l-renta').value=l.renta;
+  document.getElementById('l-dia').value=l.dia;
+  document.getElementById('l-estado').value=l.estado;
+  document.getElementById('l-edit').value=id;
+  document.getElementById('lbl-form-local').textContent='Editar local';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function cancelarEditLocal(){ document.getElementById('l-edit').value=''; document.getElementById('lbl-form-local').textContent='Nuevo local'; document.getElementById('form-local').reset(); }
+function guardarLocal(){
+  const local=document.getElementById('l-local').value.trim();
+  const inq=document.getElementById('l-inq').value.trim();
+  const tel=document.getElementById('l-tel').value.replace(/\D/g,'');
+  const renta=Number(document.getElementById('l-renta').value)||0;
+  const dia=Math.min(28,Math.max(1,Number(document.getElementById('l-dia').value)||1));
+  const estado=document.getElementById('l-estado').value;
+  if(!local||!inq){ alert('Pon al menos el nombre del local y el inquilino.'); return; }
+  const edit=document.getElementById('l-edit').value;
+  if(edit){ const l=localById(edit); Object.assign(l,{local,inquilino:inq,tel,renta,dia,estado}); }
+  else{ data.locales.push({id:Date.now(),local,inquilino:inq,tel,renta,dia,estado}); }
+  guardar(); cancelarEditLocal(); render();
+}
+function borrarLocal(id){ if(confirm('¿Borrar este local y sus pagos?')){ data.locales=data.locales.filter(l=>l.id!=id); data.pagos=data.pagos.filter(p=>p.localId!=id); guardar(); render(); } }
+
+function renderPagos(){
+  const sel=document.getElementById('p-local'); sel.innerHTML='';
+  data.locales.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.local+' — '+l.inquilino; sel.appendChild(o); });
+  document.getElementById('p-fecha').value=new Date().toISOString().slice(0,10);
+  document.getElementById('p-monto').value=localById(sel.value)?.renta||'';
+  const tb=document.getElementById('tbody-pagos'); tb.innerHTML='';
+  [...data.pagos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,30).forEach(p=>{
+    const l=localById(p.localId);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${new Date(p.fecha).toLocaleDateString('es-DO')}</td><td>${l?l.local:''}</td><td>${fmt(p.monto)}</td><td>${p.metodo}</td><td><button class="btn sm rojo" onclick="borrarPago(${p.id})">🗑️</button></td>`;
+    tb.appendChild(tr);
+  });
+}
+function guardarPago(){
+  const localId=Number(document.getElementById('p-local').value);
+  const fecha=document.getElementById('p-fecha').value;
+  const monto=Number(document.getElementById('p-monto').value)||0;
+  const metodo=document.getElementById('p-metodo').value;
+  if(!localId||!fecha||monto<=0){ alert('Completa local, fecha y monto.'); return; }
+  data.pagos.push({id:Date.now(),fecha,localId,monto,metodo});
+  guardar(); render();
+}
+function borrarPago(id){ data.pagos=data.pagos.filter(p=>p.id!=id); guardar(); render(); }
+
+function renderRecibosSelects(){
+  const sel=document.getElementById('r-local'); sel.innerHTML='';
+  data.locales.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.local+' — '+l.inquilino; sel.appendChild(o); });
+  const msel=document.getElementById('r-mes'); msel.innerHTML='';
+  const ahora=new Date(); let prev=ahora.getMonth()-1; if(prev<0) prev=11;
+  MESES.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m+' '+ahora.getFullYear(); msel.appendChild(o); });
+  msel.selectedIndex=prev;
+  document.getElementById('r-monto').value=localById(sel.value)?.renta||'';
+  const hoy=new Date();
+  document.getElementById('r-fecha').value=hoy.toISOString().slice(0,10);
+  document.getElementById('r-numero').value='R-'+String(hoy.getDate()).padStart(2,'0')+String(hoy.getMonth()+1).padStart(2,'0')+String(hoy.getFullYear()).slice(-2)+'-'+Math.floor(100+Math.random()*900);
+  actualizarRecibo();
+}
+
+function numeroEnLetras(num){
+  const un=['CERO','UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
+  const esp=['DIEZ','ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE'];
+  const dec=['VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];
+  const cen=['CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
+  let n=Math.floor(Math.abs(num));
+  const cent=Math.round((Math.abs(num)-n)*100);
+  function l(n){
+    if(n===0) return 'CERO';
+    if(n<10) return un[n];
+    if(n<20) return esp[n-10];
+    if(n<30) return n===20?'VEINTE':'VEINTI'+un[n%10];
+    if(n<100) return dec[Math.floor(n/10)-2]+(n%10?' Y '+un[n%10]:'');
+    if(n<1000) return (n===100?'CIEN':cen[Math.floor(n/100)-1])+(n%100?' '+l(n%100):'');
+    if(n<1000000) return (Math.floor(n/1000)===1?'MIL':l(Math.floor(n/1000))+' MIL')+(n%1000?' '+l(n%1000):'');
+    if(n<1000000000) return (Math.floor(n/1000000)===1?'UN MILLÓN':l(Math.floor(n/1000000))+' MILLONES')+(n%1000000?' '+l(n%1000000):'');
+    return 'CANTIDAD MUY GRANDE';
+  }
+  return l(n)+' PESOS DOMINICANOS CON '+String(cent).padStart(2,'0')+'/100';
+}
+
+function actualizarRecibo(){
+  const l=localById(Number(document.getElementById('r-local').value));
+  if(!l) return;
+  const monto=Number(document.getElementById('r-monto').value)||l.renta;
+  const numero=document.getElementById('r-numero').value;
+  const fecha=document.getElementById('r-fecha').value?new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO'):'';
+  const concepto=document.getElementById('r-concepto').value||('Renta correspondiente al mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local);
+  const metodo=document.getElementById('r-metodo').value;
+  const cfg=data.config;
+  document.getElementById('recibo-preview').innerHTML=`
+    <div class="rec-header">
+      <div class="emp">${cfg.nombre}</div>
+      <div style="font-size:10px">Administración de Locales Comerciales</div>
+      <div style="font-size:10px">${cfg.rnc} · Tel: ${cfg.tel}</div>
+      <div style="font-size:10px">${cfg.direccion}</div>
+    </div>
+    <div class="rec-titulo">R E C I B O&nbsp;&nbsp;D E&nbsp;&nbsp;P A G O</div>
+    <table class="rec-tabla">
+      <tr><td><b>Recibo No.:</b> ${numero}</td><td style="text-align:right"><b>Fecha:</b> ${fecha}</td></tr>
+      <tr><td><b>Local:</b> ${l.local}</td><td style="text-align:right"><b>Inquilino:</b> ${l.inquilino}</td></tr>
+      <tr><td colspan="2"><b>Concepto:</b> ${concepto}</td></tr>
+    </table>
+    <div style="border:1px solid #000;padding:6px;margin:8px 0">
+      <table class="rec-tabla"><tr><td>Importe a cobrar</td><td style="text-align:right">RD$ ${Number(monto).toLocaleString('es-DO')}.00</td></tr></table>
+      <div class="rec-total"><span>TOTAL</span><span>RD$ ${Number(monto).toLocaleString('es-DO')}.00</span></div>
+    </div>
+    <div class="rec-letra">SON: ${numeroEnLetras(monto)}</div>
+    <div style="display:flex;justify-content:space-between"><b>Método de pago:</b><span>${metodo}</span></div>
+    <div class="rec-firma">
+      <div>Firma del arrendatario</div>
+      <div>Firma y sello del administrador</div>
+    </div>
+    <div style="font-size:9px;text-align:center;color:#777;margin-top:10px">Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII.</div>`;
+}
+function descargarPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFont('courier','normal'); doc.setFontSize(10);
+  const monto=Number(document.getElementById('r-monto').value)||0;
+  const l=localById(Number(document.getElementById('r-local').value));
+  const cfg=data.config;
+  const y=20;
+  doc.setFontSize(15); doc.setFont('courier','bold');
+  doc.text(cfg.nombre, 105, y, {align:'center'});
+  doc.setFontSize(9); doc.setFont('courier','normal');
+  doc.text('Administración de Locales Comerciales',105,y+6,{align:'center'});
+  doc.text(cfg.rnc+' · Tel: '+cfg.tel,105,y+12,{align:'center'});
+  doc.text(cfg.direccion,105,y+18,{align:'center'});
+  doc.setFontSize(13); doc.setFont('courier','bold');
+  doc.text('R E C I B O   D E   P A G O',105,y+30,{align:'center'});
+  doc.setFontSize(10); doc.setFont('courier','normal');
+  const fecha=document.getElementById('r-fecha').value?new Date(document.getElementById('r-fecha').value).toLocaleDateString('es-DO'):'';
+  doc.text('Recibo No.: '+document.getElementById('r-numero').value,20,y+40);
+  doc.text('Fecha: '+fecha,190,y+40,{align:'right'});
+  doc.text('Local: '+l.local,20,y+47);
+  doc.text('Inquilino: '+l.inquilino,190,y+47,{align:'right'});
+  doc.text('Concepto: '+(document.getElementById('r-concepto').value||('Renta del mes de '+MESES[Number(document.getElementById('r-mes').value)].toLowerCase()+' del '+l.local)),20,y+54);
+  doc.line(20,y+62,190,y+62);
+  doc.text('Importe a cobrar',20,y+68);
+  doc.text('RD$ '+Number(monto).toLocaleString('es-DO')+'.00',190,y+68,{align:'right'});
+  doc.setFont('courier','bold'); doc.setFontSize(12);
+  doc.text('TOTAL',20,y+76);
+  doc.text('RD$ '+Number(monto).toLocaleString('es-DO')+'.00',190,y+76,{align:'right'});
+  doc.setFont('courier','normal'); doc.setFontSize(9);
+  doc.rect(20,y+82,170,12);
+  doc.text('SON: '+numeroEnLetras(monto),105,y+89,{align:'center'});
+  doc.text('Método de pago: '+document.getElementById('r-metodo').value,20,y+102);
+  doc.line(20,y+125,85,y+125); doc.line(125,y+125,190,y+125);
+  doc.setFontSize(8);
+  doc.text('Firma del arrendatario',52,y+130,{align:'center'});
+  doc.text('Firma y sello del administrador',157,y+130,{align:'center'});
+  doc.setFontSize(7);
+  doc.text('Comprobante interno de arrendamiento. Los comprobantes fiscales (NCF) se emiten a través de la DGII.',105,285,{align:'center'});
+  doc.save('Recibo-'+l.local.replace(/\s/g,'-')+'.pdf');
+}
+
+// ============ WHATSAPP ============
+function waMorosos(){
+  const y=new Date().getFullYear(),m=new Date().getMonth(); const key=y*100+(m+1);
+  const hoy=new Date(); const mesTxt=MESES[m].toLowerCase();
+  const out=document.getElementById('wa-output'); out.innerHTML='';
+  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
+    const pagado=pagosMes(l.id,key).reduce((s,p)=>s+p.monto,0);
+    const saldo=Math.max(0,l.renta-pagado);
+    if(saldo<=0) return;
+    const msg=encodeURIComponent('Hola '+l.inquilino+', aún no recibimos la renta de '+mesTxt+' del '+l.local+' (RD$ '+saldo.toLocaleString('es-DO')+'). Por favor coordina el pago lo antes posible. Gracias.');
+    out.innerHTML+=`<a class="btn wa" style="display:block;text-align:center;margin-bottom:8px;text-decoration:none" href="https://wa.me/${l.tel}?text=${msg}" target="_blank">💬 ${l.local} — ${l.inquilino} (${fmt(saldo)})</a>`;
+  });
+  if(!out.innerHTML) out.innerHTML='<div class="nota">🎉 Sin morosidades este mes. Todo al día.</div>';
+}
+function waRecordatorios(){
+  const mesTxt=MESES[new Date().getMonth()].toLowerCase();
+  const out=document.getElementById('wa-output'); out.innerHTML='';
+  data.locales.filter(l=>l.estado==='Activo').forEach(l=>{
+    const msg=encodeURIComponent('Hola '+l.inquilino+', te recordamos que la renta del '+l.local+' vence el día '+l.dia+'. El monto es RD$ '+l.renta.toLocaleString('es-DO')+'. Si ya la enviaste, ignora este mensaje. ¡Gracias!');
+    out.innerHTML+=`<a class="btn" style="display:block;text-align:center;margin-bottom:8px;text-decoration:none" href="https://wa.me/${l.tel}?text=${msg}" target="_blank">💬 ${l.local} — ${l.inquilino} (vence día ${l.dia})</a>`;
+  });
+}
+
+// ============ REPORTE ============
+function renderReporte(){
+  const y=new Date().getFullYear();
+  const tb=document.getElementById('tbody-reporte'); tb.innerHTML='';
+  const activos=data.locales.filter(l=>l.estado==='Activo');
+  const esperado=activos.reduce((s,l)=>s+l.renta,0);
+  let totalCobrado=0;
+  MESES.forEach((m,i)=>{
+    const key=y*100+(i+1);
+    const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0);
+    totalCobrado+=cobrado;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${m}</td><td>${fmt(esperado)}</td><td>${fmt(cobrado)}</td><td>${esperado?Math.round(cobrado/esperado*100):0}%</td>`;
+    tb.appendChild(tr);
+  });
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><b>TOTAL</b></td><td><b>${fmt(esperado*12)}</b></td><td><b>${fmt(totalCobrado)}</b></td><td><b>${esperado?Math.round(totalCobrado/(esperado*12)*100):0}%</b></td>`;
+  tb.appendChild(tr);
+}
+function exportarReporteCSV(){
+  const y=new Date().getFullYear();
+  let csv='Mes,Esperado,Cobrado,%\n';
+  const esperado=data.locales.filter(l=>l.estado==='Activo').reduce((s,l)=>s+l.renta,0);
+  MESES.forEach((m,i)=>{ const key=y*100+(i+1); const cobrado=data.pagos.filter(p=>mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); csv+=m+','+esperado+','+cobrado+','+(esperado?Math.round(cobrado/esperado*100):0)+'\n'; });
+  const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reporte-'+y+'.csv'; a.click();
+}
+
+// ============ BACKUP ============
+function exportarBackup(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='control-locales-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+}
+function importarBackup(ev){
+  const f=ev.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(d.locales){ data=d; guardar(); render(); alert('✅ Backup importado.'); } else alert('Archivo no válido.'); }catch(e){ alert('Error: '+e.message); } };
+  r.readAsText(f);
+}
+
+// ============ INIT ============
+['r-local','r-mes','r-monto','r-numero','r-fecha','r-concepto','r-metodo'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change',actualizarRecibo); });
+document.getElementById('p-local').addEventListener('change',()=>{ document.getElementById('p-monto').value=localById(Number(document.getElementById('p-local').value))?.renta||''; });
+cargar();
+render();
+</script>
+</body>
+</html>

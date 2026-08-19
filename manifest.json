@@ -1,0 +1,10 @@
+{
+  "name": "Control de Locales — Santo Domingo",
+  "short_name": "Locales",
+  "description": "Administración de locales comerciales: pagos, mora, recibos y WhatsApp.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f0f3f7",
+  "theme_color": "#245778",
+  "lang": "es"
+}
