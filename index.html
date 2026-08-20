@@ -233,13 +233,13 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
     <div class="brand"><span class="logo">🏢</span><b>Control de Locales <span class="brand-sub" id="brand-sub">Santo Domingo, RD</span></b></div>
     <nav id="main-nav">
       <div class="nav-label">Menú</div>
-      <a data-tab="dash" class="active"><i class="fas fa-gauge-high"></i> Resumen</a>
-      <a data-tab="locales"><i class="fas fa-building"></i> Locales</a>
-      <a data-tab="pagos"><i class="fas fa-hand-holding-dollar"></i> Pagos</a>
-      <a data-tab="recibos"><i class="fas fa-file-invoice-dollar"></i> Recibos</a>
-      <a data-tab="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-      <a data-tab="reporte"><i class="fas fa-chart-column"></i> Reportes</a>
-      <a data-tab="backup"><i class="fas fa-database"></i> Datos & Backup</a>
+      <a data-tab="dash" href="#/resumen" class="active"><i class="fas fa-gauge-high"></i> Resumen</a>
+      <a data-tab="locales" href="#/locales"><i class="fas fa-building"></i> Locales</a>
+      <a data-tab="pagos" href="#/pagos"><i class="fas fa-hand-holding-dollar"></i> Pagos</a>
+      <a data-tab="recibos" href="#/recibos"><i class="fas fa-file-invoice-dollar"></i> Recibos</a>
+      <a data-tab="whatsapp" href="#/whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a data-tab="reporte" href="#/reportes"><i class="fas fa-chart-column"></i> Reportes</a>
+      <a data-tab="backup" href="#/datos"><i class="fas fa-database"></i> Datos & Backup</a>
     </nav>
     <div class="aside-foot">⚡ App de administración de locales. Tus datos viven en este navegador. Creada por Hermes.</div>
   </aside>
@@ -382,13 +382,13 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 
 <button class="hamburguer no-print" onclick="toggleSidebar()">☰</button>
 <nav class="mnav no-print" id="mnav">
-  <a data-tab="dash" class="active"><i class="fas fa-gauge-high"></i><span>Resumen</span></a>
-  <a data-tab="locales"><i class="fas fa-building"></i><span>Locales</span></a>
-  <a data-tab="pagos"><i class="fas fa-hand-holding-dollar"></i><span>Pagos</span></a>
-  <a data-tab="recibos"><i class="fas fa-file-invoice-dollar"></i><span>Recibos</span></a>
-  <a data-tab="whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
-  <a data-tab="reporte"><i class="fas fa-chart-column"></i><span>Reportes</span></a>
-  <a data-tab="backup"><i class="fas fa-database"></i><span>Datos</span></a>
+  <a data-tab="dash" href="#/resumen" class="active"><i class="fas fa-gauge-high"></i><span>Resumen</span></a>
+  <a data-tab="locales" href="#/locales"><i class="fas fa-building"></i><span>Locales</span></a>
+  <a data-tab="pagos" href="#/pagos"><i class="fas fa-hand-holding-dollar"></i><span>Pagos</span></a>
+  <a data-tab="recibos" href="#/recibos"><i class="fas fa-file-invoice-dollar"></i><span>Recibos</span></a>
+  <a data-tab="whatsapp" href="#/whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+  <a data-tab="reporte" href="#/reportes"><i class="fas fa-chart-column"></i><span>Reportes</span></a>
+  <a data-tab="backup" href="#/datos"><i class="fas fa-database"></i><span>Datos</span></a>
 </nav>
 <div class="modal-bg" id="modal-bg" onclick="closeModal()"><div class="modal" onclick="event.stopPropagation()" id="modal-box"></div></div>
 
@@ -427,18 +427,28 @@ function mesKey(fecha){ const d=new Date(fecha); return d.getFullYear()*100+(d.g
 function localById(id){ return data.locales.find(l=>l.id==id); }
 function pagosDe(localId,key){ return data.pagos.filter(p=>p.localId==localId && mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); }
 
-// ============ NAVEGACIÓN ============
-function bindNav(scope){
-  const links = scope.querySelectorAll('a[data-tab]');
-  links.forEach(a=>a.addEventListener('click',()=>{
-    scope.querySelectorAll('a[data-tab]').forEach(x=>x.classList.remove('active')); a.classList.add('active');
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    const tab = document.getElementById('tab-'+a.dataset.tab); if(tab) tab.classList.add('active');
-    closeSidebar(); render(); window.scrollTo({top:0,behavior:'smooth'});
-  }));
+// ============ NAVEGACIÓN (hash routing) ============
+const TABS={dash:'resumen',locales:'locales',pagos:'pagos',recibos:'recibos',whatsapp:'whatsapp',reporte:'reportes',backup:'datos'};
+const TAB_BY_SLUG={resumen:'dash',locales:'locales',pagos:'pagos',recibos:'recibos',whatsapp:'whatsapp',reportes:'reporte',datos:'backup'};
+function tabFromHash(){ const h=location.hash.replace(/^#\/?/,'').split('?')[0]; return TAB_BY_SLUG[h]||'dash'; }
+function showTab(tab,updateHash){
+  if(!tab) tab='dash';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const sec=document.getElementById('tab-'+tab); if(sec) sec.classList.add('active');
+  document.querySelectorAll('#main-nav a,a[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
+  closeSidebar(); render(); window.scrollTo({top:0,behavior:'smooth'});
+  if(updateHash && ('#'+TABS[tab])!==location.hash){
+    try{ history.replaceState(null,'','#/'+TABS[tab]); }catch(e){ location.hash='#/'+TABS[tab]; }
+  }
 }
-bindNav(document.getElementById('main-nav'));
-bindNav(document.getElementById('mnav'));
+document.querySelectorAll('a[data-tab]').forEach(a=>a.addEventListener('click',(e)=>{
+  e.preventDefault();
+  const tab=a.dataset.tab;
+  if(location.hash!=='#/'+TABS[tab]){ history.pushState(null,'','#/'+TABS[tab]); }
+  showTab(tab,false);
+}));
+window.addEventListener('popstate',()=>showTab(tabFromHash(),false));
+// nota: los elementos nav se enlazan arriba con el data-tab; el hash inicial se resuelve en init()
 function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
 function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); }
 
@@ -681,7 +691,12 @@ function closeModal(){ document.getElementById('modal-bg').classList.remove('sho
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
 // ============ INIT ============
-const init=()=>{ cargar(); render(); };
+const init=()=>{
+  cargar(); render();
+  const startTab=tabFromHash();
+  if(startTab!=='dash'){ showTab(startTab,false); }
+  else{ document.querySelectorAll('a[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab==='dash')); }
+};
 init();
 
 </script>
