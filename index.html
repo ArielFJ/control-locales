@@ -13,20 +13,20 @@
 <style>
 /* ============ DESIGN TOKENS ============ */
 :root{
-  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f8fafc;
-  --border:#e5e9f0; --border-strong:#d0d7e2;
-  --text:#0f172a; --text-2:#64748b; --text-3:#94a3b8;
-  --primary:#1e3a5f; --primary-2:#245778; --primary-3:#3b82f6;
-  --accent:#533afd;
-  --green:#16a34a; --green-bg:#f0fdf4; --green-txt:#15803d;
-  --red:#dc2626; --red-bg:#fef2f2; --red-txt:#b91c1c;
-  --amber:#d97706; --amber-bg:#fffbeb; --amber-txt:#b45309;
-  --blue-bg:#eff6ff; --blue-txt:#1d4ed8;
+  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#f8fafc;
+  --border:#e6e9ef; --border-strong:#d3d9e3;
+  --text:#0b1626; --text-2:#5b6b82; --text-3:#94a3b8;
+  --primary:#17334f; --primary-2:#1e4d78; --primary-3:#3b82f6;
+  --accent:#5b5bd6;
+  --green:#16a34a; --green-bg:#ecfdf3; --green-txt:#067647;
+  --red:#dc2626; --red-bg:#fef3f2; --red-txt:#b42318;
+  --amber:#d97706; --amber-bg:#fffaeb; --amber-txt:#b54708;
+  --blue-bg:#eff4ff; --blue-txt:#175cd3;
   --wa:#25D366; --wa-dark:#1da851;
-  --shadow-sm:0 1px 2px rgba(16,24,40,.04);
-  --shadow-md:0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
-  --shadow-lg:0 24px 48px -12px rgba(16,24,40,.20), 0 4px 16px rgba(16,24,40,.08);
-  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --shadow-sm:0 1px 2px rgba(11,22,38,.04);
+  --shadow-md:0 1px 2px rgba(11,22,38,.04), 0 8px 24px rgba(11,22,38,.06);
+  --shadow-lg:0 24px 48px -12px rgba(11,22,38,.22), 0 4px 16px rgba(11,22,38,.08);
+  --r-sm:9px; --r-md:13px; --r-lg:17px;
   --sidebar-w:260px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -173,6 +173,8 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 /* ============ RESPONSIVE ============ */
 .hamburguer{display:none;position:sticky;top:14px;left:14px;z-index:60;background:var(--primary-2);color:#fff;border:0;border-radius:11px;width:46px;height:46px;font-size:19px;cursor:pointer;box-shadow:0 4px 16px rgba(30,58,95,.35);transition:all .15s ease}
 .hamburguer:hover{background:var(--primary);transform:scale(1.04)}
+/* ===== Bottom navigation (mobile) ===== */
+.mnav{display:none}
 @media (max-width:860px){
   main{padding:18px 16px 40px}
   .grid-kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
@@ -182,19 +184,30 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   aside{position:fixed;transform:translateX(-100%);width:82%;max-width:320px;transition:transform .28s cubic-bezier(.22,1,.36,1);box-shadow:none}
   aside.open{transform:translateX(0);box-shadow:0 0 60px rgba(0,0,0,.4)}
   .hamburguer{display:block}
-  main{padding:14px 14px 48px}
+  main{padding:14px 14px calc(84px + env(safe-area-inset-bottom,0px))}
   .form-grid{grid-template-columns:1fr}
   .grid-kpis{grid-template-columns:1fr 1fr}
   .kpi .val{font-size:19px}
-  .sec,.card{padding:16px;border-radius:14px}
+  .sec,.card{padding:16px;border-radius:16px}
   main h1{font-size:20px}
   .modal{padding:20px;max-height:92vh}
   .recibo{padding:22px 16px;font-size:11.5px}
   .toolbar .btn{flex:1 1 auto}
   .toolbar .btn.block{flex-basis:100%}
+
+  /* Bottom nav bar */
+  .mnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+  .mnav a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:10px;font-size:10px;font-weight:600;color:var(--text-2);flex:1;max-width:72px;transition:color .15s ease,transform .12s ease;-webkit-tap-highlight-color:transparent}
+  .mnav a i{font-size:18px;color:var(--text-3);transition:color .15s ease,transform .12s ease}
+  .mnav a.active{color:var(--primary-2)}
+  .mnav a.active i{color:var(--primary-2)}
+  .mnav a:active{transform:scale(.92)}
+  /* rise active icon slightly */
+  .mnav a.active i{transform:translateY(-1px)}
 }
 @media (min-width:721px){
   .hamburguer{display:none!important}
+  .mnav{display:none!important}
 }
 </style>
 </head>
@@ -352,6 +365,15 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </div>
 
 <button class="hamburguer no-print" onclick="toggleSidebar()">☰</button>
+<nav class="mnav no-print" id="mnav">
+  <a data-tab="dash" class="active"><i class="fas fa-gauge-high"></i><span>Resumen</span></a>
+  <a data-tab="locales"><i class="fas fa-building"></i><span>Locales</span></a>
+  <a data-tab="pagos"><i class="fas fa-hand-holding-dollar"></i><span>Pagos</span></a>
+  <a data-tab="recibos"><i class="fas fa-file-invoice-dollar"></i><span>Recibos</span></a>
+  <a data-tab="whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+  <a data-tab="reporte"><i class="fas fa-chart-column"></i><span>Reportes</span></a>
+  <a data-tab="backup"><i class="fas fa-database"></i><span>Datos</span></a>
+</nav>
 <div class="modal-bg" id="modal-bg" onclick="closeModal()"><div class="modal" onclick="event.stopPropagation()" id="modal-box"></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -389,12 +411,17 @@ function localById(id){ return data.locales.find(l=>l.id==id); }
 function pagosDe(localId,key){ return data.pagos.filter(p=>p.localId==localId && mesKey(p.fecha)===key).reduce((s,p)=>s+p.monto,0); }
 
 // ============ NAVEGACIÓN ============
-document.querySelectorAll('#main-nav a').forEach(a=>a.addEventListener('click',()=>{
-  document.querySelectorAll('#main-nav a').forEach(x=>x.classList.remove('active')); a.classList.add('active');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+a.dataset.tab).classList.add('active');
-  closeSidebar(); render(); window.scrollTo({top:0,behavior:'smooth'});
-}));
+function bindNav(scope){
+  const links = scope.querySelectorAll('a[data-tab]');
+  links.forEach(a=>a.addEventListener('click',()=>{
+    scope.querySelectorAll('a[data-tab]').forEach(x=>x.classList.remove('active')); a.classList.add('active');
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    const tab = document.getElementById('tab-'+a.dataset.tab); if(tab) tab.classList.add('active');
+    closeSidebar(); render(); window.scrollTo({top:0,behavior:'smooth'});
+  }));
+}
+bindNav(document.getElementById('main-nav'));
+bindNav(document.getElementById('mnav'));
 function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
 function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); }
 
