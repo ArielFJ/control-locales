@@ -4,7 +4,7 @@
   "description": "Administración de locales comerciales: pagos, mora, recibos y WhatsApp.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f0f3f7",
-  "theme_color": "#245778",
+  "background_color": "#f6f9fc",
+  "theme_color": "#533afd",
   "lang": "es"
 }
